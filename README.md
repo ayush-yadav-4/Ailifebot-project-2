@@ -13,16 +13,17 @@ templates/
 │   │   ├── App.js          # Main app component
 │   │   ├── common/         # Common components
 │   │   │   ├── LoadingScreen.js
+│   │   │   ├── AnalysisDropdown.js
 │   │   │   ├── AnalysisPanel.js
 │   │   │   └── VersionDisclaimer.js
 │   │   ├── welcome/        # Welcome screen components
-│   │   │   ├── WelcomeScreen.js
 │   │   │   ├── WelcomeHeader.js
 │   │   │   ├── TopRightControls.js
 │   │   │   ├── SearchBox.js
 │   │   │   ├── PromptCard.js
 │   │   │   └── AnalysisToggle.js
 │   │   ├── chat/           # Chat interface components
+│   │   │   ├── Chart.js
 │   │   │   ├── ChatArea.js
 │   │   │   ├── ChatHeader.js
 │   │   │   ├── ChatMessages.js
@@ -33,17 +34,17 @@ templates/
 │   │   │   └── SettingsDropdown.js
 │   │   └── modals/        # Modal components
 │   │       ├── PromptGalleryModal.js
-│   │       └── FeedbackModal.js
+│   │       └── CardPromptModal.js
 │   ├── hooks/             # Custom React hooks
 │   │   ├── useChat.js
-│   │   ├── useSpeechRecognition.js
 │   │   ├── useChartRenderer.js
 │   │   ├── useMarkdownRenderer.js
 │   │   └── useMathJaxRenderer.js
 │   ├── data/              # Data files
 │   │   └── promptCards.js
 │   ├── styles/
-│   │   └── App.css        # All CSS extracted from igl.html
+│   │   ├── App.css        # All CSS extracted from igl.html
+│   │   └── Responsive.mobile.css
 │   └── index.js           # React entry point
 ├── package.json
 └── README.md
