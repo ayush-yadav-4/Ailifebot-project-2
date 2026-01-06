@@ -1,7 +1,5 @@
 # CGMSCL React Application
 
-This is a complete React.js refactoring of the original `igl.html` file. All functionality has been preserved and converted to React components with proper state management.
-
 ## Project Structure
 
 ```
