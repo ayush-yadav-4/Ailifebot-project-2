@@ -12,7 +12,6 @@ export const globalPromptCards = [
     prompts: [
       'Fit Files Payment Pending at Section',
       'UnFit Files Payment Pending at Section',
-      'Unpaid and SD (Security Deposit) Pending',
       'Paid field payment status this month',
       'Paid field payment status from 01/01/25 to 02/02/25',
       'How many POs are unpaid with most recent last QC passed date'
