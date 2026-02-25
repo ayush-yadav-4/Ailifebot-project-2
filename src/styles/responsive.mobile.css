@@ -1,0 +1,280 @@
+/* Mobile-only overrides to keep desktop/laptop styles untouched.
+   All rules are scoped to max-width breakpoints. */
+
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .copilot-layout {
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .welcome-screen {
+    padding: 80px 12px 18px;
+  }
+
+  .welcome-header,
+  .welcome-scrollable-content {
+    padding: 0 10px;
+  }
+
+  .welcome-header {
+    margin-top: 2px;
+    margin-bottom: 10px;
+    gap: 4px;
+  }
+
+  .welcome-title {
+    font-size: 1.85rem;
+    line-height: 1.15;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.98rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .main-prompt-cards,
+  .extended-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Card refinements */
+  .prompt-card,
+  .main-prompt-cards .prompt-card-main,
+  .extended-cards-grid .prompt-card-extended {
+    padding: 10px 10px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    border-color: #ececec;
+    height: auto !important;
+    min-height: 130px !important; 
+  }
+
+  .prompt-card .card-title,
+  .prompt-card-main .card-title,
+  .prompt-card-extended .card-title {
+    font-size: 15px;
+    margin: 0 auto;
+    
+  }
+
+  .prompt-card .card-description,
+  .prompt-card-main .card-description,
+  .prompt-card-extended .card-description {
+    font-size: 13px;
+    line-height: 1.35;
+    margin: 6px 0 4px 0;
+  }
+
+  .card-header-main,
+  .card-header-extended,
+  .card-header {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .top-left-logo {
+    left: 12px;
+    top: 12px;
+    width: 80px;
+    z-index: 12;
+  }
+
+  .top-right-controls {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    z-index: 12;
+    /* border: 1px solid #e5e7eb; */
+  }
+
+  .top-right-controls .new-chat-btn,
+  .top-right-controls .settings-btn {
+    min-width: 36px;
+    min-height: 36px;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  .top-right-controls .settings-btn {
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .top-right-controls .analysis-toggle {
+    transform: scale(0.95);
+  }
+
+  .chat-area {
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .chat-messages {
+    padding: 16px 12px 140px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .chat-search-container {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+    border-radius: 16px;
+    box-shadow: 0 -2px 14px rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    gap: 8px;
+  }
+
+  .chat-search-input {
+    font-size: 16px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .chat-button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+
+  .card-prompts-modal-content,
+  .prompt-gallery-modal-content {
+    width: calc(100% - 24px);
+    max-height: 88vh;
+    padding: 16px;
+  }
+
+  /* Tighten search container spacing */
+  .copilot-search-container {
+    margin-top: 6px;
+    margin-bottom: 10px;
+    padding: 0 6px;
+  }
+
+  .copilot-search-box {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .copilot-search-box input {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .voice-btn,
+  .send-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+
+  /* Hide version / disclaimer on mobile */
+  .version-info,
+  .version-info span,
+  .ai-disclaimer {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .welcome-title {
+    font-size: 1.7rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .chat-messages {
+    padding: 14px 10px 135px;
+  }
+
+  .chat-search-container {
+    border-radius: 14px;
+    gap: 6px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .chat-search-input {
+    font-size: 16px;
+    padding: 0 8px 0 0;
+  }
+
+  .chat-button {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+
+  .chat-button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .copilot-search-box {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .copilot-search-box input {
+    font-size: 16px;
+    padding: 0 8px 0 0;
+  }
+
+  .voice-btn,
+  .send-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+
+  .voice-btn svg,
+  .send-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+

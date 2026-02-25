@@ -1,0 +1,6 @@
+node_modules
+.env
+igl.html 
+PROJECT_DESCRIPTION.md
+src/utils/feedbackService.js
+src/components/modals/FeedbackModal.js

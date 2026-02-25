@@ -1,0 +1,6452 @@
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+        /* Remove outer page scrollbar: eliminate body padding and hide overflow */
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #ffffff;
+            margin: 0;
+            padding: 0;
+            color: #1f1f1f;
+            letter-spacing: -0.01em;
+        }
+
+        /* Loading screen styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e0e0e0;
+            border-top: 3px solid #1F7246;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Compact spinner for inline and button usage */
+        .button-spinner {
+            width: 22px;
+            height: 22px;
+            margin: 0;
+            border-width: 3px;
+            border-color: #e0e0e0;
+            border-top-color: #1F7246;
+        }
+
+        /* Microsoft Copilot Layout */
+        .copilot-layout {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        /* CSS Variables for dynamic layout */
+        :root {
+            --content-padding: 20px;
+        }
+
+        /* Header Logo Styles */
+        .top-left-logo {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 102;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: auto;
+        }
+
+
+
+        /* Version Info Styles */
+        .version-info {
+            padding: 8px 12px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .version-info span {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* AI Disclaimer Styles */
+        .ai-disclaimer {
+            padding: 12px 20px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .ai-disclaimer p {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 0;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* Company Logo Mark Styles */
+        .company-logo-mark {
+            position: fixed;
+            bottom: 16px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            opacity: 0.9;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-decoration: none;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .company-logo-mark:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .company-logo-mark .powered-by-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: #888;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .company-logo-mark:hover .powered-by-text {
+            color: #1F7246;
+        }
+
+        .company-logo-mark img {
+            height: 24px;
+            width: auto;
+            max-width: 100px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .company-logo-mark:hover img {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .company-logo-mark {
+                bottom: 12px;
+                right: 12px;
+                padding: 6px 12px;
+            }
+
+            .company-logo-mark img {
+                height: 20px;
+                max-width: 80px;
+            }
+            
+            .company-logo-mark .powered-by-text {
+                font-size: 10px;
+            }
+        }
+
+
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            width: 100vw;
+            max-width: 100vw;
+            margin-left: 0;
+            position: relative;
+        }
+
+        /* Welcome Screen Styles */
+        .welcome-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+    
+
+        /* Scrollable Content Section */
+        .welcome-scrollable-content {
+            flex: 1;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow-y: auto;
+            padding: 27px 20px 40px 20px; /* Top padding to account for fixed header */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin-top: 0;
+        }
+
+        /* Main content scrollbar styling */
+        .main-content::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 0;
+            border-left: 1px solid #e9ecef;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #1F7246, #2D5016);
+            border-radius: 0;
+            border-left: 3px solid #f8f9fa;
+        }
+
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #2D5016, #1a3d0e);
+            box-shadow: inset -2px 0 4px rgba(31, 114, 70, 0.3);
+        }
+
+        .main-content::-webkit-scrollbar-corner {
+            background: #f8f9fa;
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .welcome-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #1f1f1f;
+            margin: 0 0 12px 0;
+            line-height: 1.1;
+        }
+
+        .welcome-subtitle {
+            font-size: 1rem;
+            color: #6b7280;
+            margin: 0 0 16px 0;
+            line-height: 1.4;
+            max-width: 600px;
+        }
+
+        /* Scrollable content area styles - Hide scrollbar */
+        .welcome-scrollable-content {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .welcome-scrollable-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        /* Centered Search Container */
+        /* Old centered search container styles removed */
+
+        /* Main Prompt Cards */
+        .main-prompt-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: min-content;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 24px;
+            padding: 0;
+            align-items: start;
+            grid-auto-flow: row;
+            align-content: start;
+        }
+
+        .prompt-card-main {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s;
+            text-align: left;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .prompt-card-main:hover {
+            border-color: #1F7246;
+            box-shadow: 0 4px 12px rgba(31, 114, 70, 0.1);
+            transform: translateY(-2px);
+        }
+        /* Ensure the dropdown toggle does not overlap or hide text */
+        .card-header-main .dropdown-toggle {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+            padding: 4px;
+            min-width: 24px;
+            min-height: 24px;
+            border-radius: 4px;
+        }
+        
+        .card-header-main .dropdown-toggle:hover {
+            background: rgba(107, 114, 128, 0.05);
+        }
+
+        .card-header-main .card-title {
+            text-overflow: ellipsis;
+        }
+        .prompt-card-main .card-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin: 0 0 12px 0;
+            line-height: 1.4;
+        }
+
+        .dropdown-content-main {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e5e5;
+            animation: slideDown 0.3s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dropdown-item-main {
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: rgba(31, 114, 70, 0.05);
+            border-radius: 8px;
+            color: #1F7246;
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(31, 114, 70, 0.1);
+        }
+
+        .dropdown-item-main:hover {
+            background: rgba(31, 114, 70, 0.1);
+            border-color: rgba(31, 114, 70, 0.3);
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(31, 114, 70, 0.15);
+        }
+
+        .dropdown-item-main:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Legacy prompt card styles for compatibility */
+        .prompt-card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .prompt-card:hover {
+            border-color: #1F7246;
+            box-shadow: 0 4px 12px rgba(31, 114, 70, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .prompt-card .card-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .prompt-card .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f1f1f;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+            white-space: normal;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+            hyphens: none;
+        }
+
+        .prompt-card .card-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.4;
+            /* white-space: normal; */
+            word-break: keep-all;
+            overflow-wrap: break-word;
+            hyphens: none;
+        }
+
+        /* See More Button */
+        .see-more-container {
+            align-self: flex-end;
+            margin-top: 16px;
+        }
+
+        .see-more-btn {
+            background: transparent;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .see-more-btn:hover {
+            background: #f3f4f6;
+            border-color: #1F7246;
+            color: #1F7246;
+        }
+
+        /* Extended Prompt Cards */
+        .extended-prompt-cards {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e5e5;
+            transition: all 0.4s ease-in-out;
+            overflow: visible;
+            height: auto;
+            max-height: none;
+            transform-origin: top;
+            opacity: 1;
+        }
+
+        .extended-prompt-cards.hidden {
+            opacity: 0;
+            transform: translateY(-10px);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        /* Custom scrollbar styling for extended cards */
+        /* Extended cards now flow naturally without internal scrolling */
+
+        /* Ensure all dropdown arrows are gray */
+        .prompt-card .dropdown-toggle,
+        .card .dropdown-toggle,
+        .prompt-card .fa-chevron-down,
+        .prompt-card .arrow-down,
+        .card-dropdown-icon,
+        .dropdown-toggle,
+        .modal-body .dropdown-toggle {
+            color: #6B7280 !important;
+            fill: #6B7280 !important;
+        }
+
+        /* For SVG icons */
+        .prompt-card svg path,
+        .card svg path,
+        .dropdown-toggle svg path {
+            stroke: #6B7280 !important;
+            fill: #6B7280 !important;
+        }
+
+        /* Hide floating suggestions and prompt gallery button on the welcome screen search box
+           so the welcome page layout remains as before. Chat-specific suggestions in the chat
+           area (e.g., .chat-floating-suggestions, .chat-prompt-gallery-btn) stay visible. */
+        .welcome-screen .copilot-search-container .floating-suggestions,
+        .welcome-screen .copilot-search-container .suggestion-pill,
+        .welcome-screen .copilot-search-container .prompt-gallery-btn {
+            display: none !important;
+        }
+
+        /* Microsoft Copilot-style Search Interface - Front Page Only */
+        .copilot-search-container {
+            position: relative;
+            max-width: 700px !important;
+            margin: 0 auto !important; /* Center horizontally */
+            padding: 0 20px;
+            text-align: center; /* Center content within container */
+            width: 100%;
+        }
+
+        /* When inside fixed header, ensure proper centering */
+        .welcome-fixed-header .copilot-search-container {
+            left: auto;
+            transform: none;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        /* Ensure proper width is maintained on larger screens */
+        @media (min-width: 1024px) {
+            .copilot-search-container {
+                max-width: 700px !important;
+                margin: 0 auto !important;
+            }
+            
+            .welcome-fixed-header .copilot-search-container {
+                max-width: 600px !important;
+            }
+        }
+
+        /* Force proper width on desktop screens */
+        @media (min-width: 1200px) {
+            .copilot-search-container {
+                max-width: 700px !important;
+                margin: 0 auto !important;
+            }
+            
+            .welcome-fixed-header .copilot-search-container {
+                max-width: 650px !important;
+            }
+        }
+
+        /* Ensure search container is visible and has correct width */
+        .copilot-search-container {
+            display: block !important;
+            visibility: visible !important;
+        }
+
+        /* Ensure search box takes full width of container */
+        .copilot-search-box {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 auto; /* Center the search box within container */
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Top Right Controls */
+        .top-right-controls {
+            position: absolute;
+            top: 20px;
+            right: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+
+        /* Settings dropdown container */
+        .settings-dropdown {
+            position: relative;
+        }
+
+        /* Settings button */
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: #374151;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
+
+        .settings-btn:hover,
+        .settings-btn[aria-expanded="true"] {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-color: #d1d5db;
+            color: #1F7246;
+        }
+
+        /* Remove shadow box for settings button inside Prompt Gallery header */
+        .CGMSCL-prompt-gallery-modal .settings-btn {
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 8px !important;
+        }
+        .CGMSCL-prompt-gallery-modal .settings-btn:hover,
+        .CGMSCL-prompt-gallery-modal .settings-btn[aria-expanded="true"] {
+            background: transparent !important;
+            box-shadow: none !important;
+            border-color: transparent !important;
+            outline: none !important;
+            color: #6B7280 !important;
+        }
+
+        /* Settings dropdown menu */
+        .settings-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            padding: 8px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            z-index: 10000;
+        }
+
+        .settings-menu[aria-hidden="false"] {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Settings menu items */
+        .settings-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-size: 14px;
+            color: #374151;
+            user-select: none;
+        }
+
+        .settings-item:hover {
+            background: #f3f4f6;
+            color: #1F7246;
+        }
+
+        .settings-item i {
+            width: 16px;
+            font-size: 14px;
+            color: #6b7280;
+            transition: color 0.15s ease;
+        }
+
+        .settings-item:hover i {
+            color: #1F7246;
+        }
+
+        .settings-item span {
+            font-weight: 500;
+        }
+
+        /* Override the global hide rule for settings menu add button */
+        .settings-menu .settings-item[data-action="add"] {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        /* Specific styling for CRUD operations */
+        .settings-item[data-action="add"]:hover {
+            background: #f0fdf4;
+            color: #1F7246;
+        }
+
+        .settings-item[data-action="add"]:hover i {
+            color: #1F7246;
+        }
+
+        .settings-item[data-action="edit"]:hover {
+            background: #fff8e1;
+            color: #D4AF37;
+        }
+
+        .settings-item[data-action="edit"]:hover i {
+            color: #D4AF37;
+        }
+
+        .settings-item[data-action="delete"]:hover {
+            background: #fef2f2;
+            color: #1F7246
+;
+        }
+
+        .settings-item[data-action="delete"]:hover i {
+            color: #1F7246
+;
+        }
+
+        /* Separator between option groups */
+        .settings-separator {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 4px 0;
+        }
+
+        /* Focus styles */
+        .settings-item:focus {
+            outline: 2px solid #1F7246;
+            outline-offset: -2px;
+            background: #f0fdf4;
+        }
+
+        /* Screen reader support */
+        .settings-item[aria-selected="true"] {
+            background: #f0fdf4;
+            color: #1F7246;
+        }
+
+        .settings-btn:focus {
+            outline: none;
+            outline-offset: 0;
+        }
+
+        /* New Chat Button */
+        /* Excel Download Button */
+        .excel-download-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            min-width: 40px;
+            min-height: 40px;
+        }
+
+        .excel-download-btn:hover {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+        }
+
+        .excel-download-btn:focus {
+            outline: 2px solid #1F7246;
+            outline-offset: 2px;
+        }
+
+        .excel-download-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .excel-download-btn img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .new-chat-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            min-width: 40px;
+            min-height: 40px;
+        }
+
+        .new-chat-btn:hover {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-color: #1F7246;
+            color: #1F7246;
+        }
+
+        .new-chat-btn:focus {
+            outline: 2px solid #1F7246;
+            outline-offset: 2px;
+        }
+
+        .new-chat-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Session Info Display */
+        .session-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #6b7280;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .session-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .session-limit {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .session-limit-caution {
+            color: #f59e0b !important;
+        }
+
+        .session-limit-warning {
+            color: #1F7246 !important;
+            font-weight: 600;
+        }
+
+        .session-id {
+            font-family: monospace;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        .floating-suggestions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .suggestion-pill {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-weight: 500;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        .suggestion-pill:hover {
+            background: #e5e7eb;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestion-pill:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .prompt-gallery-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #1F7246;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+            font-size: 16px;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .prompt-gallery-btn:hover {
+            background: #2D5016;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(31, 114, 70, 0.3);
+        }
+
+        .prompt-gallery-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Container adjustments */
+        .copilot-search-box,
+        .search-container,
+        .input-wrapper,
+        .input-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            padding: 18px 20px; /* Increased from 12px 16px to 18px 20px for more height and width */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out 0.5s both;
+            gap: 8px;
+        }
+
+        .copilot-search-box:focus-within {
+            border-color: #1F7246;
+            box-shadow: 0 4px 12px rgba(31, 114, 70, 0.15);
+        }
+
+        /* Search input styling */
+        .copilot-search-box input,
+        .search-input,
+        input[placeholder*="message"],
+        input[placeholder*="email"] {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            font-size: 18px; /* Increased from 16px to 18px for better visibility */
+            padding: 0 12px;
+            background: transparent;
+            color: #374151;
+            border-radius: 24px;
+        }
+
+        .copilot-search-box input::placeholder,
+        .search-input::placeholder,
+        input[placeholder*="message"]::placeholder,
+        input[placeholder*="email"]::placeholder {
+            color: #9ca3af;
+        }
+
+        .copilot-search-box input:focus,
+        .search-input:focus,
+        input[placeholder*="message"]:focus {
+            outline: none;
+            border: none;
+        }
+
+        .add-attachment-btn,
+        .mic-btn,
+        .voice-btn,
+        .send-btn {
+            width: 36px; /* Increased from 32px to 36px */
+            height: 36px; /* Increased from 32px to 36px */
+            border-radius: 50%;
+            border: none;
+            margin-left: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 16px; /* Increased from 14px to 16px */
+            flex-shrink: 0;
+        }
+
+        /* Hide all variations of the plus/add button */
+        .add-attachment-btn,
+        .plus-button,
+        .attachment-button,
+        .btn-add,
+        .btn-plus,
+        .icon-add,
+        .icon-plus,
+        .fa-plus,
+        button[class="add"],
+        button[class*="plus"],
+        [data-action="add"],
+        [data-action="attachment"] {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        /* Mic button styling */
+        .mic-btn,
+        .mic-button,
+        .btn-mic,
+        .button-mic,
+        [class*="mic"] {
+            background: #1F7246;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+        }
+
+        .mic-btn:hover,
+        .btn-mic:hover,
+        [class*="mic"]:hover {
+            background: #2D5016;
+            transform: scale(1.05);
+        }
+
+        /* Mic button recording state */
+        .mic-btn.recording,
+        [class*="mic"].recording {
+            background: #059669 !important;
+            animation: pulse 1s infinite;
+        }
+
+        /* Pulse animation for mic button */
+        @keyframes pulse {
+            0% { 
+                transform: scale(1); 
+                box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.7); 
+            }
+            70% { 
+                transform: scale(1.05); 
+                box-shadow: 0 0 0 10px rgba(5, 150, 105, 0); 
+            }
+            100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); 
+            }
+        }
+
+        /* Send button styling */
+        .send-btn,
+        .send-button,
+        .btn-send,
+        .button-send,
+        [class*="send"] {
+            background: #1F7246;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover,
+        .btn-send:hover,
+        [class*="send"]:hover {
+            background: #2D5016;
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Voice button styling */
+        .voice-btn {
+            background: #1F7246;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .voice-btn:hover {
+            background: #2D5016;
+            transform: scale(1.05);
+        }
+
+        .voice-btn.recording {
+            background: #ef4444;
+            animation: pulse 1s infinite;
+        }
+
+        .voice-btn.recording:hover {
+            background: #dc2626;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Enhanced Chat Container Search Interface */
+        .chat-search-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            border-top: 1px solid #e5e7eb;
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Add padding to chat area to accommodate floating suggestions */
+        .chat-area {
+            padding-bottom: 0;
+        }
+
+        .chat-floating-suggestions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .chat-floating-suggestions .suggestion-pill {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 13px;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-weight: 500;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .chat-floating-suggestions .suggestion-pill:hover {
+            background: #e5e7eb;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-floating-suggestions .suggestion-pill:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-prompt-gallery-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1F7246;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+            font-size: 14px;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .chat-prompt-gallery-btn:hover {
+            background: #2D5016;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(31, 114, 70, 0.3);
+        }
+
+        .chat-prompt-gallery-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Microsoft Copilot Style Chat Search Container */
+        .chat-search-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            /* Match chat content width and center it, so left/right gaps are equal */
+            max-width: 1000px;
+            height: 74px;
+            background: #ffffff;
+            border: 1px solid #e1e5e9;
+            border-radius: 37px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 0 20px;
+            margin: 0 auto;
+            margin-bottom: 65px;   
+            transition: all 0.3s ease;
+            /* Override earlier fixed positioning so input sits within chat column,
+               not full-viewport from edge to edge */
+            position: static;
+            overflow: hidden;
+        }
+
+        .chat-search-container:focus-within {
+            border-color: #1F7246;
+            box-shadow: 0 0 0 2px rgba(31, 114, 70, 0.2);
+        }
+
+        .chat-search-container:hover {
+            border-color: #c7c7c7;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Input field with Copilot-style placeholder and sizing */
+        .chat-search-input {
+            flex: 1;
+            height: 70px;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #323130;
+            padding: 0 12px 0 0;
+            line-height: 1.4;
+            overflow: hidden;
+            resize: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-search-input::placeholder {
+            color: #605e5c;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .chat-search-input:focus {
+            outline: none;
+        }
+
+        /* Mic and Send buttons integrated on the right */
+        .chat-button {
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 50%;
+            background: #1F7246;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            transition: all 0.2s ease;
+            color: #ffffff;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(31, 114, 70, 0.2);
+        }
+
+        .chat-button:hover {
+            background: #2D5016;
+            color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(31, 114, 70, 0.3);
+        }
+
+        .chat-button:active {
+            background: #1a3d0e;
+            transform: scale(0.95);
+        }
+
+        .chat-button.mic-button {
+            color: #ffffff;
+            background: #1F7246;
+        }
+
+        .chat-button.mic-button:hover {
+            background: #2D5016;
+            color: #ffffff;
+        }
+
+        .chat-button.tts-button {
+            color: #ffffff;
+            background: #059669;
+        }
+
+        .chat-button.tts-button:hover {
+            background: #047857;
+            color: #ffffff;
+        }
+
+        .chat-button.tts-button.playing {
+            background: #10b981;
+            animation: pulse 1s infinite;
+        }
+
+        .chat-button.send-button {
+            color: #ffffff;
+            background: #1F7246;
+        }
+
+        .chat-button.send-button:hover {
+            background: #2D5016;
+            color: #ffffff;
+        }
+
+        .chat-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #1F7246;
+        }
+
+        .chat-button.send-button[aria-busy="true"] {
+            cursor: progress;
+            box-shadow: none;
+        }
+
+        .chat-button:disabled:hover {
+            background: #1F7246;
+            transform: none;
+        }
+
+        /* Legacy chat input wrapper - keep for compatibility */
+        .chat-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 8px 12px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input-wrapper:focus-within {
+            border-color: #d1d5db;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Remove red focus highlight from search input */
+        .chat-input,
+        .search-input,
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none !important;
+            border-color: #e5e7eb !important; /* Neutral gray instead of red */
+            box-shadow: 0 0 0 1px rgba(229, 231, 235, 0.5) !important;
+        }
+
+        /* Optional: Add subtle focus styling */
+        .chat-input:focus,
+        .input-textarea:focus {
+            border-color: #d1d5db;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Floating Suggestions and Gallery Button Above Search Box */
+        .floating-suggestions-container {
+            position: relative; /* stays within chat scroll for scrollable behavior */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 0.75rem 1rem 0.5rem;
+            pointer-events: none; /* match igl: clicks only on children */
+        }
+
+        /* Inline variant when rendered inside the chat scroll area */
+        .floating-suggestions-container.inline-floating {
+            position: relative;
+            margin-top: -10px;
+        }
+
+        .floating-suggestions-wrapper {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto; /* Enable clicks on buttons */
+            min-height: 60px;
+            padding: 12px 0;
+        }
+
+        .floating-suggestion-pill {
+            backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(31, 114, 70, 0.35);
+            border-radius: 20px;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #1f7246;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .floating-suggestion-pill:hover {
+            background: rgba(31, 114, 70, 0.06);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .floating-suggestion-pill:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .floating-gallery-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: rgba(31, 114, 70, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            animation: fadeInUp 0.5s ease-out;
+            margin-left: 4px;
+        }
+
+        .floating-gallery-btn:hover {
+            background: rgba(45, 80, 22, 0.95);
+            transform: translateY(-1px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .floating-gallery-btn:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .extended-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: auto;
+            gap: 1rem;
+            margin-bottom: 24px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            align-items: start;
+            transition: all 0.3s ease;
+        }
+
+        .prompt-card-extended {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s;
+            text-align: left;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+            align-self: start;
+        }
+
+        .prompt-card-extended:hover {
+            border-color: #1F7246;
+            box-shadow: 0 4px 12px rgba(31, 114, 70, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Hide Coming Soon placeholder cards */
+        .placeholder-card,
+        .prompt-card-extended.placeholder-card,
+        .card[data-status="coming-soon"],
+        .prompt-card.coming-soon {
+            display: none !important;
+        }
+        /* Hide cards with "Coming Soon" in their title */
+        .prompt-card-extended:has(.card-title:contains("Coming Soon")),
+        .prompt-card:has(.card-title:contains("Coming Soon")) {
+            display: none !important;
+        }
+
+        /* Placeholder card styling (for any remaining placeholders) */
+        .placeholder-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px dashed #dee2e6;
+            opacity: 0.6;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .placeholder-card:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: #dee2e6;
+        }
+
+        .placeholder-card .card-icon {
+            color: #6c757d;
+        }
+
+        .placeholder-card .card-title {
+            color: #6c757d;
+        }
+
+        .placeholder-card .card-description {
+            color: #6c757d;
+        }
+
+        .card-header-extended {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .card-header-extended .card-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .card-header-extended .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f1f1f;
+            margin: 0;
+            flex: 1;
+            line-height: 1.3;
+        }
+
+        /* Dropdown toggle button for extended cards */
+        .prompt-card-extended .dropdown-toggle {
+            position: relative;
+            top: auto;
+            right: auto;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            color: #6b7280;
+            font-size: 14px;
+            z-index: 10;
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            min-height: 24px;
+        }
+
+        .prompt-card-extended .dropdown-toggle:hover {
+            background: rgba(107, 114, 128, 0.05);
+            color: #374151;
+        }
+
+        /* Arrow icons are now handled by changing fa-chevron-down to fa-chevron-up in JavaScript */
+
+        .prompt-card-extended .dropdown-toggle i {
+            transition: transform 0.2s ease;
+        }
+
+        /* Card description for extended cards */
+        .prompt-card-extended .card-description {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0 0 16px 0;
+            padding-right: 0; /* Remove extra padding since button is no longer absolute */
+        }
+
+        /* Expandable content for extended cards */
+        .prompt-card-extended .card-expanded-content {
+            max-height: 0;
+            overflow: hidden;
+            background: #fef2f2;
+            border-radius: 8px;
+            margin-top: 12px;
+            transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .prompt-card-extended .card-expanded-content.expanded {
+            max-height: 400px;
+            padding: 16px;
+            transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* Prompt options for extended cards */
+        .prompt-card-extended .prompt-option {
+            padding: 9px 14px;
+            font-size: 15px;
+            color: #2D5016;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #D4AF37;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: border 0.2s, background 0.15s;
+        }
+
+        .prompt-card-extended .prompt-option:hover {
+            border: 1.5px solid #1F7246;
+            background: #f0fdf4;
+        }
+
+        .prompt-card-extended .prompt-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .dropdown-toggle {
+            background: rgba(107, 114, 128, 0.1);
+            color: #6B7280;
+            border: none;
+            border-radius: 6px;
+            padding: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            min-height: 28px;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(107, 114, 128, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Arrow rotation now handled by icon class changes in JavaScript */
+
+        /* Non-intrusive search highlight that doesn't shift layout */
+        .search-highlight {
+            background: linear-gradient(transparent 60%, #fef3c7 60%);
+            color: inherit;
+            border-radius: 2px;
+            padding: 0 0.5px; /* tiny padding to avoid text collision without wrapping */
+            display: inline;
+            line-height: inherit;
+            box-decoration-break: clone; /* prevent awkward breaks when wrapping */
+        }
+
+        .dropdown-content-extended {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e5e5;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .dropdown-item-extended {
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: rgba(31, 114, 70, 0.05);
+            border-radius: 8px;
+            color: #1F7246;
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(31, 114, 70, 0.1);
+        }
+
+        .dropdown-item-extended:hover {
+            background: rgba(31, 114, 70, 0.1);
+            border-color: rgba(31, 114, 70, 0.3);
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(31, 114, 70, 0.15);
+        }
+
+        .dropdown-item-extended:last-child {
+            margin-bottom: 0;
+        }
+
+        @keyframes slideDown {
+            from {
+            opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 300px;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card Prompts Modal Styles */
+        .card-prompts-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .card-prompts-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+            width: 600px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-prompts-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .card-prompts-modal-header-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .card-prompts-modal-header .card-icon {
+            font-size: 24px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .card-prompts-modal-header .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+            flex: 1;
+            line-height: 1.3;
+        }
+
+        .card-prompts-modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .card-prompts-modal-close:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .card-prompts-modal-description {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .card-prompts-list {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .card-prompts-list .card-prompt-item {
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: rgba(31, 114, 70, 0.05);
+            border-radius: 8px;
+            color: #1F7246;
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(31, 114, 70, 0.1);
+        }
+
+        .card-prompts-list .card-prompt-item:hover {
+            background: rgba(31, 114, 70, 0.1);
+            border-color: rgba(31, 114, 70, 0.3);
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(31, 114, 70, 0.15);
+        }
+
+        .card-prompts-list .card-prompt-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-prompts-empty {
+            color: #9ca3af;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive adjustments for Card Prompts Modal */
+        @media (max-width: 768px) {
+            .card-prompts-modal-content {
+                width: 95%;
+                padding: 20px;
+                max-height: 85vh;
+            }
+
+            .card-prompts-modal-header .card-title {
+                font-size: 16px;
+            }
+
+            .card-prompts-list .card-prompt-item {
+                font-size: 13px;
+                padding: 8px 10px;
+            }
+        }
+
+        /* Chat Area Styles */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: white;
+            position: relative;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 120px; /* Space for fixed input area */
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Bottom Input Container */
+        .bottom-input-container {
+            border-top: 1px solid #e5e5e5;
+            background: white;
+            padding: 16px 20px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 4px;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #1F7246;
+            box-shadow: 0 2px 8px rgba(31, 114, 70, 0.1);
+        }
+
+        .input-textarea {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 12px 16px;
+            font-size: 16px;
+            background: transparent;
+            resize: none;
+            min-height: 20px;
+            max-height: 120px;
+            line-height: 1.5;
+            color: #1f1f1f;
+        }
+
+        .input-textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        .send-button,
+        .mic-button {
+            background: #1F7246;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 4px;
+        }
+
+        .send-button:hover,
+        .mic-button:hover {
+            background: #2D5016;
+        }
+
+        .send-button.processing {
+            background: #6b7280;
+        }
+
+        .mic-button.recording {
+            background: #ef4444;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Chat Prompts Button */
+        .chat-prompts-button {
+            background: #1F7246;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 4px;
+        }
+
+        .chat-prompts-button:hover {
+            background: #2D5016;
+        }
+
+        .chat-prompts-button .w-5 {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Floating Prompt Gallery Button */
+        .prompt-gallery-floating-btn {
+            position: fixed;
+            bottom: 120px; /* Above the mic button with space */
+            right: 20px; /* Aligned with mic button */
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #1F7246;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            font-size: 0;
+            animation: floating-pulse 3s ease-in-out infinite;
+        }
+
+        .prompt-gallery-floating-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            background: #2D5016;
+            animation: none;
+        }
+
+        .prompt-gallery-floating-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .prompt-gallery-floating-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Focus styles for accessibility */
+        .prompt-gallery-floating-btn:focus {
+            outline: 2px solid #1F7246;
+            outline-offset: 2px;
+        }
+
+        .prompt-gallery-floating-btn:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* Subtle pulse animation */
+        @keyframes floating-pulse {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+            50% {
+                box-shadow: 0 4px 12px rgba(31, 114, 70, 0.3);
+            }
+        }
+
+
+        /* Responsive Design for Floating Button */
+        @media (max-width: 768px) {
+            .prompt-gallery-floating-btn {
+                bottom: 130px; /* Above mic button with space */
+                right: 20px; /* Aligned with mic button */
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .prompt-gallery-floating-btn {
+                bottom: 135px; /* Above mic button with space */
+                right: 16px; /* Aligned with mic button */
+                width: 44px;
+                height: 44px;
+            }
+
+            .prompt-gallery-floating-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            /* Copilot search responsive design */
+            .copilot-search-container {
+                padding: 0 16px;
+                margin: 0 auto !important;
+                max-width: 95%; /* Ensure it fits on mobile */
+                text-align: center;
+            }
+            
+            .welcome-fixed-header .copilot-search-container {
+                max-width: 90%;
+                padding: 0 12px;
+            }
+
+            .copilot-search-box {
+                padding: 16px 18px; /* Maintain larger size on mobile */
+            }
+
+            .copilot-search-box input {
+                font-size: 17px; /* Slightly smaller but still larger than original */
+            }
+
+            .add-attachment-btn,
+            .mic-btn,
+            .voice-btn,
+            .send-btn {
+                width: 34px; /* Slightly smaller on mobile */
+                height: 34px;
+                font-size: 15px;
+            }
+
+            /* Chat container responsive design */
+            .chat-floating-suggestions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            
+            .chat-floating-suggestions .suggestion-pill {
+                text-align: center;
+                margin-bottom: 4px;
+                width: 100%;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .chat-prompt-gallery-btn {
+                align-self: center;
+                margin: 8px 0 0 0;
+            }
+
+            .chat-search-container {
+                padding: 0.75rem;
+            }
+
+            /* Mobile adjustments for top controls */
+            .top-right-controls {
+                top: 16px;
+                right: 50px;
+                gap: 8px;
+            }
+            
+            .settings-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            
+            .settings-menu {
+                min-width: 180px;
+                right: -8px;
+            }
+            
+            .settings-item {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            /* Excel Download Button mobile adjustments */
+            .excel-download-btn {
+                min-width: 36px;
+                min-height: 36px;
+                padding: 6px 10px;
+            }
+            
+            .excel-download-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .excel-download-btn img {
+                width: 18px;
+                height: 18px;
+                object-fit: contain;
+            }
+
+            /* New Chat Button mobile adjustments */
+            .new-chat-btn {
+                min-width: 36px;
+                min-height: 36px;
+                padding: 6px 10px;
+            }
+            
+            .new-chat-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .chat-input-wrapper {
+                padding: 6px 10px;
+            }
+
+            /* Responsive adjustments for Copilot-style search */
+            .chat-search-container {
+                max-width: 100%;
+                height: 56px;
+                padding: 0 16px;
+            }
+            
+            .chat-search-input {
+                height: 52px;
+                line-height: 52px;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+            
+            .chat-button {
+                width: 44px;
+                height: 44px;
+                margin-left: 6px;
+                background: #1F7246;
+                color: #ffffff;
+            }
+            
+            .chat-button svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-search-container {
+                max-width: 100%;
+                height: 52px;
+                padding: 0 12px;
+            }
+            
+            .chat-search-input {
+                height: 48px;
+                line-height: 48px;
+                font-size: 16px;
+                padding: 0 8px 0 0;
+            }
+            
+            .chat-button {
+                width: 40px;
+                height: 40px;
+                background: #1F7246;
+                color: #ffffff;
+            }
+
+            /* Floating elements responsive design */
+            .floating-suggestions-container {
+                margin-bottom: 12px;
+            }
+            
+            .floating-suggestions-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .floating-suggestion-pill {
+                text-align: center;
+                margin-bottom: 8px;
+            }
+            
+            .floating-gallery-btn {
+                align-self: center;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .prompt-gallery-floating-btn {
+                bottom: 125px; /* Above mic button with space */
+                right: 20px; /* Aligned with mic button */
+                width: 52px;
+                height: 52px;
+            }
+
+            .prompt-gallery-floating-btn svg {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        /* Hide floating button when sidebar is open on mobile */
+        @media (max-width: 899px) {
+            .sidebar.open ~ .prompt-gallery-floating-btn {
+                opacity: 0.5;
+                pointer-events: none;
+            }
+        }
+
+        /* Show button only in chat area */
+        .chat-area .prompt-gallery-floating-btn {
+            display: flex;
+        }
+
+        /* Hide button on welcome screen */
+        .welcome-screen ~ .prompt-gallery-floating-btn {
+            display: none;
+        }
+
+        /* Show button when chat area is visible */
+        .chat-area[style*="display: block"] ~ .prompt-gallery-floating-btn,
+        .chat-area:not([style*="display: none"]) ~ .prompt-gallery-floating-btn {
+            display: flex;
+        }
+
+
+
+
+        /* Legacy styles - keeping for compatibility */
+
+        /* Gallery Backdrop */
+        .gallery-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            backdrop-filter: blur(4px);
+            display: none;
+        }
+        /* CGMSCL Prompt Gallery Modal */
+        .CGMSCL-prompt-gallery-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            max-width: 900px;
+            max-height: 90vh;
+            background: #f9fafb;
+            z-index: 2000;
+            overflow-y: auto;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            display: none;
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .CGMSCL-prompt-gallery-modal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Reset any browser defaults or inherited margins */
+        .CGMSCL-prompt-gallery-modal * {
+            box-sizing: border-box;
+        }
+
+        /* Remove any potential scrollbar spacing issues */
+        .CGMSCL-prompt-gallery-modal {
+            overflow-x: hidden;
+        }
+
+        .CGMSCL-prompt-gallery-modal[open] {
+            display: block;
+        }
+
+        .CGMSCL-prompt-gallery-modal::backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+        }
+
+        /* Gallery Header */
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            margin: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .gallery-header h2 {
+            color: #1f2937;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #f3f4f6;
+            color: #1F7246;
+        }
+
+        /* Settings Dropdown */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .settings-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .settings-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+        }
+
+        .settings-btn:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .settings-btn.active {
+            color: #1F7246;
+            background: #f0fdf4;
+        }
+
+        .settings-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 2001;
+            min-width: 120px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .settings-dropdown-menu.show {
+            display: block;
+            animation: dropdownFadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #374151;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-option:hover {
+            background: #f9fafb;
+            color: #1F7246;
+        }
+
+        .dropdown-option i {
+            margin-right: 8px;
+            font-size: 14px;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* Specific colors for each option */
+        .dropdown-option:nth-child(1):hover { /* Add */
+            background: #f0f9ff;
+            color: #0ea5e9;
+        }
+
+        .dropdown-option:nth-child(2):hover { /* Edit */
+            background: #fffbeb;
+            color: #f59e0b;
+        }
+
+        .dropdown-option:nth-child(3):hover { /* Delete */
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        /* Modal styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90vw;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #111827;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #1F7246 !important;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1F7246;
+            box-shadow: 0 0 0 3px rgba(31, 114, 70, 0.1);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 4px;
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .form-actions button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .form-actions button[type="button"] {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .form-actions button[type="button"]:hover {
+            background: #e5e7eb;
+        }
+
+        .form-actions button[type="submit"] {
+            background: #1F7246;
+            color: white;
+        }
+
+        .form-actions button[type="submit"]:hover {
+            background: #2D5016;
+        }
+
+        /* Edit/Delete mode styles */
+        .prompt-card.edit-mode {
+            border: 2px dashed #1F7246;
+        }
+        
+        .prompt-card.delete-mode {
+            border: 2px dashed #1F7246
+;
+            cursor: pointer;
+        }
+
+        .prompt-card.edit-mode:hover {
+            background: #fffbeb;
+        }
+
+        .prompt-card.delete-mode:hover {
+            background: #fef2f2;
+        }
+
+        .cancel-edit-btn,
+        .cancel-delete-btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .cancel-edit-btn:hover,
+        .cancel-delete-btn:hover {
+            background: #d97706;
+        }
+
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 4000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-success {
+            background: #10b981;
+        }
+
+        .notification-warning {
+            background: #f59e0b;
+        }
+
+        .notification-info {
+            background: #3b82f6;
+        }
+
+        /* Internal Prompts Modal */
+        .internal-prompts-modal {
+            border: none;
+            border-radius: 12px;
+            padding: 0;
+            max-width: 500px;
+            width: 90vw;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+
+        .internal-prompts-modal::backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-info {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .internal-prompts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .internal-prompt-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .internal-prompt-item:hover {
+            background: #f3f4f6;
+            border-color: #1F7246
+;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(31, 114, 70, 0.1);
+        }
+
+        .internal-prompt-text {
+            flex: 1;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .internal-prompt-delete {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .internal-prompt-delete:hover {
+            color: #1F7246
+;
+            background: #fef2f2;
+        }
+
+        .add-prompt-section {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .add-prompt-section input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .add-prompt-section input:focus {
+            outline: none;
+            border-color: #1F7246
+;
+            box-shadow: 0 0 0 3px rgba(31, 114, 70, 0.1);
+        }
+
+        .add-prompt-section button {
+            padding: 12px 20px;
+            background: #1F7246
+;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-prompt-section button:hover {
+            background: #2D5016;
+        }
+
+        .add-prompt-section button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .prompt-counter {
+            text-align: center;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        /* Gallery Search Section */
+        .gallery-search-section {
+            padding: 16px 24px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .search-container {
+            max-width: 100%;
+            margin: 0;
+            width: 100%;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px 12px;
+            transition: all 0.2s ease;
+            width: 100%;
+            max-width: none;
+        }
+
+        .search-input-wrapper:focus-within {
+            border-color: #1F7246
+;
+            box-shadow: 0 0 0 1px rgba(31, 114, 70, 0.1);
+            background: white;
+        }
+
+        .search-icon {
+            color: #9ca3af;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .prompt-search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: #374151;
+            transition: all 0.2s ease;
+        }
+
+        .prompt-search-input:focus {
+            font-size: 15px;
+        }
+
+        .prompt-search-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .clear-search-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            margin-left: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .clear-search-btn:hover {
+            color: #1F7246
+;
+            background: #fef2f2;
+        }
+
+        /* Prompts Grid */
+        .prompts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: auto;
+            gap: 16px;
+            padding: 24px;
+            margin: 0;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        /* Add transitions for search animations */
+        .prompt-card {
+            transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s ease;
+        }
+
+        /* Search input enhancements */
+        .prompt-search-input:focus {
+            font-size: 15px;
+            outline: none;
+            border-color: #1F7246
+;
+            box-shadow: 0 0 0 2px rgba(31, 114, 70, 0.1);
+        }
+
+        /* Search results counter */
+        .search-results-counter {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* Enhanced clear button */
+        .clear-search-btn {
+            transition: all 0.2s ease;
+        }
+
+        .clear-search-btn:hover {
+            transform: scale(1.1);
+            color: #1F7246
+;
+        }
+
+        /* Ensure all cards have uniform grid positioning and dimensions */
+        .prompt-card:nth-child(1),
+        .prompt-card:nth-child(2),
+        .prompt-card:nth-child(3),
+        .prompt-card:nth-child(4),
+        .prompt-card:nth-child(5),
+        .prompt-card:nth-child(6),
+        .prompt-card:nth-child(7),
+        .prompt-card:nth-child(8),
+        .prompt-card:nth-child(9),
+        .prompt-card:nth-child(10) {
+            grid-column: span 1 !important;
+            grid-row: span 1 !important;
+            min-height: 180px !important;
+            height: auto !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        .prompt-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            min-height: 180px;
+            width: 100%;
+            height: auto;
+            box-sizing: border-box;
+            align-self: start;
+        }
+
+        .prompt-card:hover {
+            box-shadow: 0 4px 12px rgba(31, 114, 70, 0.1);
+            border-color: #1F7246
+;
+            transform: translateY(-2px);
+        }
+        
+        /* Ensure hover effects apply to all cards equally */
+        .prompt-card:nth-child(10):hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 12px rgba(31, 114, 70, 0.1) !important;
+            border-color: #1F7246
+ !important;
+        }
+        
+        /* Force identical layout for all cards - final override */
+        .prompts-grid > .prompt-card {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 180px !important;
+            padding: 20px !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+            align-self: stretch !important;
+            justify-self: stretch !important;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            position: relative;
+            padding-right: 40px; /* Space for dropdown button */
+        }
+
+        .card-description {
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Action buttons container */
+        .message .message-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 8px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: flex-end;
+        }
+
+        /* Base action button styles */
+        .message .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #374151;
+        }
+
+        .message .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .message .action-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Copy button specific styles */
+        .message .copy-btn {
+            background:  #1F7246;
+            color: white;
+            border: 1px solid #1F7246;
+        }
+
+        /* Excel download button specific styles */
+        .message .excel-download-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e5e7eb;
+            color: inherit;
+        }
+
+        .message .excel-download-btn:hover {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+        }
+
+        .message .excel-download-btn img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .message .copy-btn:hover {
+            background: linear-gradient(135deg, #2D5016, #1F7246
+);
+            box-shadow: 0 4px 12px rgba(31, 114, 70, 0.3);
+        }
+
+        .message .copy-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Thumbs up button styles */
+        .message .thumbs-up-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            color: #374151;
+        }
+
+        .message .thumbs-up-btn:hover {
+            background: rgba(34, 197, 94, 0.9);
+            border-color: rgba(34, 197, 94, 1);
+            color: white;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        .message .thumbs-up-btn.active {
+            background: rgba(34, 197, 94, 0.8);
+            border-color: rgba(34, 197, 94, 1);
+            color: white;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Thumbs down button styles */
+        .message .thumbs-down-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            color: #374151;
+        }
+
+        .message .thumbs-down-btn:hover {
+            background: rgba(239, 68, 68, 0.9);
+            border-color: rgba(239, 68, 68, 1);
+            color: white;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .message .thumbs-down-btn.active {
+            background: rgba(239, 68, 68, 0.8);
+            border-color: rgba(239, 68, 68, 1);
+            color: white;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Feedback modal styles */
+        .feedback-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .feedback-modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-modal h3 {
+            margin: 0 0 16px 0;
+            color: #111827;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .feedback-modal textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .feedback-modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            justify-content: flex-end;
+        }
+
+        .feedback-modal-buttons button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .feedback-modal-buttons .submit-btn {
+            background: #3B82F6;
+            color: white;
+        }
+
+        .feedback-modal-buttons .submit-btn:hover {
+            background: #2563EB;
+        }
+
+        .feedback-modal-buttons .cancel-btn {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .feedback-modal-buttons .cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+        /* Download button styles */
+        .message .download-btn {
+            background: linear-gradient(135deg, #1F7246
+, #EF4444);
+            color: white;
+            border: 1px solid #1F7246;
+        }
+
+        .message .download-btn:hover {
+            background: linear-gradient(135deg, #2D5016, #1F7246
+);
+            box-shadow: 0 4px 12px rgba(31, 114, 70, 0.3);
+        }
+
+        .message .download-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Disabled state for action buttons */
+        .message .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .message .download-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .message .excel-download-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Ensure action buttons are visible */
+        .message .message-actions {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .message .action-btn {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Download menu styles */
+        .download-menu {
+            position: absolute;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            min-width: 180px;
+            padding: 4px 0;
+        }
+
+        .download-menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            color: #374151;
+            transition: background-color 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .download-menu-item:hover {
+            background: #f3f4f6;
+        }
+
+        .download-menu-item svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            color: #6B7280;
+        }
+
+        .download-menu-item:hover svg {
+            color: #374151;
+        }
+
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #10B981;
+        }
+
+        .notification.error {
+            background: #EF4444;
+        }
+
+        .notification.info {
+            background: #3B82F6;
+        }
+
+        /* Analytics Modal Styles */
+        .analytics-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .analytics-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .analytics-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .analytics-card h4 {
+            margin: 0 0 15px 0;
+            color: #007bff;
+            font-size: 16px;
+        }
+
+        .analytics-card p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .analytics-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .analytics-card li {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .analytics-modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .export-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .export-btn:hover {
+            background: #218838;
+        }
+
+        .analytics-button:hover {
+            background: #0056b3;
+        }
+
+        /* Dropdown Toggle Button - Matching Front Page Design */
+        .prompt-card .dropdown-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #6B7280;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .prompt-card .dropdown-toggle:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .prompt-card .dropdown-toggle i {
+            color: inherit;
+        }
+
+        /* Expandable Content */
+        .card-expanded-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            background: #fef2f2;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+
+        .card-expanded-content.expanded {
+            max-height: none; /* Allow full expansion */
+            overflow-y: visible; /* Show all content */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            padding: 16px;
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #1F7246
+ #f3f4f6; /* Firefox - thumb and track colors */
+        }
+
+        /* Custom scrollbar styling for WebKit browsers */
+        .card-expanded-content.expanded::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .card-expanded-content.expanded::-webkit-scrollbar-track {
+            background: #f3f4f6;
+            border-radius: 4px;
+        }
+
+        .card-expanded-content.expanded::-webkit-scrollbar-thumb {
+            background: #1F7246
+;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .card-expanded-content.expanded::-webkit-scrollbar-thumb:hover {
+            background: #2D5016;
+        }
+
+        /* Ensure smooth scrolling */
+        .card-expanded-content {
+            scroll-behavior: smooth;
+        }
+        .prompt-option {
+            padding: 8px 12px;
+            margin: 4px 0;
+            background: white;
+            border: 1px solid #f3f4f6;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #374151;
+            transition: all 0.2s ease;
+        }
+
+        .prompt-option:hover {
+            background: #f9fafb;
+            border-color: #1F7246
+;
+            color: #1F7246
+;
+        }
+
+        /* Arrow rotation now handled by icon class changes in JavaScript */
+
+        .dropdown-toggle {
+            transition: transform 0.3s ease;
+        }
+
+
+        /* Responsive Design */
+        @media (min-width: 1024px) {
+            .CGMSCL-prompt-gallery-modal {
+                width: 80vw;
+                max-width: 1000px;
+            }
+        }
+
+        @media (max-width: 1023px) and (min-width: 768px) {
+            .CGMSCL-prompt-gallery-modal {
+                width: 85vw;
+                max-width: 800px;
+            }
+            
+            .prompts-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: minmax(180px, auto);
+            }
+            
+            .prompt-card:nth-child(10) {
+                grid-column: span 1 !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .CGMSCL-prompt-gallery-modal {
+                width: 95vw;
+                height: 90vh;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            
+            .prompts-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: minmax(160px, auto);
+                padding: 16px;
+                justify-content: center;
+            }
+            
+            .prompt-card:nth-child(10) {
+                grid-column: span 1 !important;
+            }
+            
+            .prompt-card {
+                min-height: 160px;
+                height: auto;
+            }
+            
+            .gallery-header {
+                padding: 16px 20px;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .gallery-header h2 {
+                font-size: 20px;
+            }
+            
+            .gallery-search-section {
+                padding: 12px 16px;
+            }
+            
+            .search-container {
+                max-width: 100%;
+                width: 100%;
+                padding: 0;
+            }
+            
+            .prompt-search-input {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+            
+            /* Mobile dropdown button adjustments */
+            .prompt-card .dropdown-toggle {
+                top: 16px;
+                right: 16px;
+                font-size: 14px;
+            }
+            
+            .card-header {
+                padding-right: 35px;
+            }
+            
+            .card-title {
+                margin-right: 35px;
+            }
+            
+            /* Mobile expandable content adjustments */
+            .card-expanded-content.expanded {
+                max-height: 180px; /* Smaller max height on mobile */
+            }
+            
+            .card-expanded-content.expanded::-webkit-scrollbar {
+                width: 6px; /* Thinner scrollbar on mobile */
+            }
+            
+            .prompt-option {
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-expanded-content.expanded {
+                max-height: 150px; /* Even smaller on very small screens */
+            }
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 2px;
+            bottom: 2px;
+            background-color: #e5e7eb;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #1F7246
+;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+
+        /* Chat Area Component */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 120px clamp(8px, 2vw, 16px) clamp(8px, 2vw, 16px);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(6px, 1.5vw, 10px);
+            /* Hide scrollbar on Firefox/Edge while preserving scroll */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Hide scrollbar on WebKit browsers for chat containers */
+        .chat-container::-webkit-scrollbar,
+        .chat-messages::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+            display: none;
+        }
+
+        /* Ensure chat-messages also hides native scrollbars cross-browser */
+        .chat-messages {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glassmorphism Chat Header */
+        .chat-glassmorphism-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chat-glassmorphism-header.visible {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 4px;
+        }
+
+        .chat-header-logo {
+            width: 50px;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .chat-header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-new-chat-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-new-chat-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .chat-menu-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Adjust chat container for header */
+        .chat-area.has-header .chat-container {
+            padding-top: 90px;
+        }
+
+        /* Mobile responsiveness for chat header */
+        @media (max-width: 768px) {
+            .chat-glassmorphism-header {
+                height: 65px;
+                padding: 6px 16px;
+            }
+
+            .chat-header-logo {
+                width: 35px;
+            }
+
+            .chat-header-left {
+                padding-top: 3px;
+            }
+
+            .chat-new-chat-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            .chat-menu-btn {
+                width: 28px;
+                height: 28px;
+            }
+
+            .chat-container {
+                padding: 100px clamp(8px, 2vw, 16px) clamp(8px, 2vw, 16px);
+            }
+        }
+
+        .welcome-message-area {
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            gap: 15px; 
+            max-width: 80%; 
+            margin: auto; 
+        }
+
+        .bot-icon {
+            width: 100px; 
+            height: auto;
+            display: block; 
+            margin-bottom: 10px; 
+        }
+
+        .welcome-text {
+            font-size: clamp(1.5rem, 4vw, 2rem); 
+            font-weight: bold;
+            color: #A855F7; 
+            margin: 0; 
+        }
+
+        .question-text {
+            font-size: clamp(1.2rem, 3.5vw, 1.6rem); 
+            color: #8B5CF6; 
+            margin: 0; 
+        }
+
+        .chat-container::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #C4B5FD, #DDD6FE);
+            border-radius: 3px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            animation: slideIn 0.3s ease;
+        }
+
+        .user-message {
+            justify-content: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .bot-message {
+            justify-content: flex-start;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 36px;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: clamp(12px, 2vw, 16px) clamp(14px, 2.5vw, 20px);
+            border-radius: 16px;
+            line-height: 1.5;
+            font-size: clamp(14px, 1.8vw, 16px);
+            position: relative;
+            letter-spacing: -0.01em;
+        }
+
+        /* Bot messages - use full chat column width so left/right gaps outside are equal */
+        .bot-message .message-bubble {
+            width: 100%;
+            max-width: 100% !important;
+        }
+
+        /* Ensure tables take full width of their container */
+        .bot-message .message-bubble table,
+        .bot-message .message-bubble .table-scroll-container {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        /* Fix list styling in message bubbles */
+        .message-bubble ul,
+        .message-bubble ol {
+            padding-left: 24px !important;
+            margin: 10px 0 !important;
+        }
+
+        .message-bubble li {
+            margin: 6px 0 !important;
+            padding-left: 4px !important;
+        }
+
+        /* Table styles - properly aligned tables */
+        .message-bubble table {
+            width: 100% !important;
+            border-collapse: collapse;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 8px;
+            overflow: hidden;
+            min-width: max-content;
+            display: table !important;
+            table-layout: auto;
+            box-sizing: border-box;
+        }
+
+        .message-bubble th {
+            background: rgba(218, 32, 32, 0.1);
+            color: #1F7246;
+            font-weight: 600;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid rgba(218, 32, 32, 0.3);
+            white-space: normal;
+            display: table-cell !important;
+            vertical-align: middle;
+        }
+
+        .message-bubble td {
+            padding: 10px 12px;
+            border: 1px solid rgba(218, 32, 32, 0.2);
+            white-space: normal;
+            vertical-align: top;
+            color: #374151;
+            display: table-cell !important;
+        }
+
+        /* Ensure proper table structure */
+        .message-bubble thead {
+            display: table-header-group !important;
+        }
+
+        .message-bubble tbody {
+            display: table-row-group !important;
+        }
+
+        .message-bubble tr {
+            display: table-row !important;
+        }
+
+        .message-bubble tr:nth-child(even) {
+             background: rgba(218, 32, 32, 0.05);
+        }
+
+        .message-bubble tr:hover {
+            background: rgba(218, 32, 32, 0.1);
+        }
+
+        /* Document header styles */
+        .message-bubble h3 {
+            color: #DA2020;
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+        }
+
+        /* Add styles for code blocks and inline code */
+        .message-bubble pre {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .message-bubble code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .message-bubble pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Enhanced source links styling for multi-PDF system */
+        .message-bubble .sources {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(218, 32, 32, 0.06);
+            border-radius: 8px;
+            border-left: 4px solid #DA2020;
+        }
+
+        .message-bubble .sources h4 {
+            color: #DA2020;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .message-bubble .sources ul {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .message-bubble .sources li {
+            margin-bottom: 8px;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+            border: 1px solid rgba(237, 93, 5, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .message-bubble .sources li:hover {
+            background: rgba(218, 32, 32, 0.08);
+            border-color: rgba(218, 32, 32, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(218, 32, 32, 0.12);
+        }
+
+        /* Most relevant source styling */
+        .message-bubble .sources .most-relevant-source {
+            background: rgba(218, 32, 32, 0.12);
+            border-color: rgba(218, 32, 32, 0.35);
+            box-shadow: 0 2px 8px rgba(218, 32, 32, 0.18);
+        }
+
+        .message-bubble .sources .most-relevant-source:hover {
+            background: rgba(218, 32, 32, 0.16);
+            border-color: rgba(218, 32, 32, 0.45);
+        }
+
+        /* Ranked source styling */
+        .message-bubble .sources .ranked-source {
+            background: rgba(74, 144, 226, 0.1);
+            border-color: rgba(74, 144, 226, 0.2);
+        }
+
+        .message-bubble .sources .ranked-source:hover {
+            background: rgba(74, 144, 226, 0.15);
+            border-color: rgba(74, 144, 226, 0.4);
+        }
+
+        /* Numbered source styling */
+        .message-bubble .sources .numbered-source {
+            background: rgba(74, 144, 226, 0.1);
+            border-color: rgba(74, 144, 226, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .message-bubble .sources .numbered-source:hover {
+            background: rgba(74, 144, 226, 0.15);
+            border-color: rgba(74, 144, 226, 0.4);
+        }
+
+        .message-bubble .sources .numbered-source strong {
+            color: #4a90e2;
+            font-weight: 700;
+            min-width: 20px;
+        }
+
+        /* Source link styling */
+        .message-bubble .sources .source-link {
+            color: #DA2020;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .message-bubble .sources .source-link:hover {
+            background: rgba(218, 32, 32, 0.12);
+            color: #2D5016;
+            text-decoration: none;
+            transform: scale(1.02);
+        }
+
+        .message-bubble .sources .most-relevant-source .source-link {
+            color: #DA2020;
+            font-weight: 700;
+        }
+
+        .message-bubble .sources .most-relevant-source .source-link:hover {
+            background: rgba(218, 32, 32, 0.14);
+            color: #2D5016;
+        }
+
+
+        /* Fallback for standard links */
+        .message-bubble .sources a:not(.source-link) {
+            color: #DA2020;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .message-bubble .sources a:not(.source-link):hover {
+            text-decoration: underline;
+            color: #2D5016;
+        }
+
+        .message-bubble .sources a:not(.source-link):before {
+            content: "📄";
+            font-size: 12px;
+        }
+
+        /* SQL Toggle Styles */
+        .sql-toggle-btn {
+            background: #f8f9fa;
+            color: #495057;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+        }
+
+        .sql-toggle-btn:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+        .sql-query-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            overflow-x: auto;
+            margin: 8px 0;
+            border: 1px solid #444;
+        }
+
+        /* Analysis Dropdown Styles */
+        .analysis-dropdown {
+            position: relative;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        /* Analysis Toggle Dropdown Button Styles */
+        .analysis-toggle-dropdown {
+            display: flex;
+            align-items: center;
+        }
+
+        .analysis-toggle-btn {
+            background: #1F7246
+;
+            color: transparent;
+            border: 2px solid #1F7246;
+            border-radius: 20px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 60px;
+            justify-content: flex-start;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            height: 32px;
+        }
+
+        .analysis-toggle-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .analysis-toggle-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ON State - White */
+        .analysis-toggle-btn.on {
+            background: white;
+            border-color: #1F7246;
+        }
+
+        .analysis-toggle-btn.on:hover {
+            background: #FEF2F2;
+        }
+
+        .analysis-toggle-btn.on::before {
+            transform: translateX(28px);
+            background: #1F7246
+;
+        }
+
+        /* OFF State - Red */
+        .analysis-toggle-btn.off {
+            background: #1F7246
+;
+            border-color: #1F7246;
+        }
+
+        .analysis-toggle-btn.off:hover {
+            background: #2D5016;
+        }
+
+        .toggle-text {
+            display: none;
+        }
+
+        .toggle-icon {
+            display: none;
+        }
+
+        /* Toggle Switch Slider */
+        .analysis-toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Mobile responsiveness for toggle button */
+        @media (max-width: 768px) {
+            .analysis-toggle-btn {
+                min-width: 50px;
+                height: 28px;
+            }
+            
+            .analysis-toggle-btn::before {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .analysis-toggle-btn.on::before {
+                transform: translateX(22px);
+            }
+        }
+
+        .analysis-dropdown-btn {
+            background: #E3F2FD;
+            color: #1976D2;
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(33, 150, 243, 0.2);
+        }
+
+        .analysis-dropdown-btn:hover {
+            background: #BBDEFB;
+            border-color: #1976D2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+        }
+
+        .analysis-dropdown-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(33, 150, 243, 0.2);
+        }
+
+        .analysis-dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 400px;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            top: 100%;
+            left: 0;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .analysis-dropdown-content.show {
+            display: block;
+            animation: fadeInDown 0.2s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .analysis-dropdown-header {
+            background: rgba(31, 114, 70, 0.05);
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(31, 114, 70, 0.1);
+            font-weight: 600;
+            color: #1F7246;
+            font-size: 14px;
+        }
+
+        .analysis-dropdown-body {
+            padding: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .sql-query-code {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #495057;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+        }
+
+        .analysis-dropdown-footer {
+            background: rgba(31, 114, 70, 0.02);
+            padding: 8px 16px;
+            border-top: 1px solid rgba(31, 114, 70, 0.1);
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+        }
+
+        /* Analysis Panel Styles */
+        .analysis-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100vh;
+            background: white;
+            border-left: 1px solid #e5e7eb;
+            box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .analysis-panel.show {
+            transform: translateX(0);
+        }
+
+        .analysis-panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+        }
+
+        .analysis-panel-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .analysis-panel-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            color: #6b7280;
+            transition: all 0.2s ease;
+        }
+
+        .analysis-panel-close:hover {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .analysis-panel-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .analysis-section {
+            margin-bottom: 24px;
+        }
+
+        .analysis-section h4 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .analysis-query-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .analysis-empty-state {
+            color: #6b7280;
+            font-size: 13px;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .analysis-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .stat-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* Mobile responsiveness for analysis dropdown */
+        @media (max-width: 768px) {
+            .analysis-dropdown-content {
+                min-width: 300px;
+                max-width: 90vw;
+            }
+            
+            .analysis-panel {
+                width: 100vw;
+                max-width: 100vw;
+            }
+            
+            .sql-query-code {
+                font-size: 12px;
+                padding: 10px;
+            }
+        }
+
+        .user-message .message-bubble {
+            /* Solid green background for user prompt messages (no gradient) */
+            background: #1F7246;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 15px rgba(31, 114, 70, 0.3);
+        }
+
+        .bot-message .message-bubble {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1F2937;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 8px 22px rgba(17, 24, 39, 0.08);
+            border: 1px solid rgba(31, 114, 70, 0.16);
+            backdrop-filter: blur(10px);
+            background: linear-gradient(180deg, #ffffff 0%, #f7fbf8 100%);
+        }
+
+        .bot-message .message-text {
+            color: #1f2937;
+            line-height: 1.6;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* Ensure message text with tables expands properly */
+        .bot-message .message-text:has(table),
+        .bot-message .message-text:has(.table-scroll-container) {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .bot-message .message-bubble strong {
+            color: #1F7246;
+        }
+
+        .timestamp {
+            font-size: clamp(10px, 1.5vw, 12px);
+            color: #a0aec0;
+            margin-top: 3px;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .avatar {
+            width: clamp(32px, 4vw, 40px);
+            height: clamp(32px, 4vw, 40px);
+            border-radius: 50%;
+            margin: 0 clamp(8px, 1.5vw, 12px);
+            object-fit: cover;
+            border: 2px solid #8B5CF6;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .bot-avatar {
+            border-color: #4A4A4A;
+            box-shadow: 0 2px 8px rgba(74, 74, 74, 0.2);
+        }
+
+        .error-message {
+            color: #1F7246
+;
+            font-size: clamp(12px, 1.8vw, 14px);
+            text-align: center;
+            padding: 8px;
+            animation: slideIn 0.3s ease;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        /* Assistant typing indicator bubble */
+        .typing-message .typing-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8fbf8;
+            border: 1px dashed rgba(31, 114, 70, 0.35);
+            box-shadow: 0 6px 16px rgba(17, 24, 39, 0.06);
+            color: #1F7246;
+        }
+
+        .typing-text {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .loader {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: clamp(6px, 1.5vw, 10px);
+        }
+
+        .loader::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 3px solid #8B5CF6;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .typing-indicator {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: clamp(6px, 1.5vw, 10px);
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background: #4A4A4A;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .input-container {
+            align-self: center;
+            width: 95%;
+            padding: clamp(12px, 2vw, 16px);
+            border-top: 2px solid #4f46e5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            flex-wrap: wrap;
+            border-radius: 10px;
+            -webkit-backdrop-filter: blur(50px);
+            backdrop-filter: blur(50px);
+            border: solid 4px #ffffff;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
+            box-shadow: 0 8px 32px rgba(79, 70, 229, 0.1);
+        }
+
+        .input-textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            border-radius: 50px;
+            padding: clamp(10px, 2vw, 14px) clamp(12px, 2.5vw, 18px);
+            color: #374151;
+            font-size: clamp(14px, 1.8vw, 16px);
+            resize: none;
+            height: 50px;
+            outline: none;
+            transition: all 0.2s ease;
+            letter-spacing: -0.01em;
+            min-width: 200px;
+            overflow: hidden; 
+            box-shadow: 
+            inset 4px 4px 8px rgba(79, 70, 229, 0.1),
+            inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+        }
+
+
+        .input-textarea:focus {
+            border-color: #1F7246;
+            box-shadow: 0 0 0 3px rgba(31, 114, 70, 0.2);
+        }
+
+        .input-textarea:hover {
+            border-color: #1F7246;
+        }
+
+        .send-button, .mic-button, .tts-button {
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: clamp(14px, 1.8vw, 16px);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: -0.01em;
+            touch-action: manipulation;
+            width: 48px;
+            height: 48px;
+        }
+
+        .send-button, .mic-button {
+            background: linear-gradient(135deg, #1F7246
+, #EF4444);
+            box-shadow: 0 4px 15px rgba(31, 114, 70, 0.3);
+        }
+
+        .tts-button {
+            background: linear-gradient(135deg, #059669, #10b981);
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+        }
+
+        .send-button {
+            border-radius: 12px;
+            width: auto;
+            padding: 10px 20px;
+            height: 48px;
+            min-width: 44px;
+        }
+
+        .send-button:hover, .mic-button:hover {
+            background: linear-gradient(135deg, #2D5016, #1F7246
+);
+            box-shadow: 0 6px 20px rgba(31, 114, 70, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tts-button:hover {
+            background: linear-gradient(135deg, #047857, #059669);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tts-button.playing {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            animation: glow 0.8s infinite alternate ease-in-out;
+        }
+
+        .send-button.processing {
+            background: #4A4A4A;
+        }
+
+        .mic-button.recording {
+            background: linear-gradient(135deg, #1F7246
+, #2D5016);
+            animation: glow 0.8s infinite alternate ease-in-out;
+        }
+
+        .mute-button.muted {
+            background: #4A4A4A;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(31, 114, 70, 0.7); }
+            to { box-shadow: 0 0 40px rgba(31, 114, 70, 1.0); }
+        }
+
+        .footer {
+            text-align: center;
+            padding: clamp(12px, 2vw, 16px);
+            font-size: clamp(13px, 1.8vw, 15px);
+            color: #6B7280;
+            letter-spacing: -0.01em;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-4px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 8px;
+                padding: 15px;
+            }
+
+            .header {
+                padding: 10px;
+            }
+
+            .header .logo {
+                width: 40px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .toggle-container {
+                gap: 4px;
+            }
+
+            .toggle-label {
+                font-size: 12px;
+            }
+
+            .toggle-switch {
+                width: 30px;
+                height: 15px;
+            }
+
+            .slider:before {
+                height: 11px;
+                width: 11px;
+                bottom: 2px;
+                left: 2px;
+            }
+
+            input:checked + .slider:before {
+                transform: translateX(15px);
+            }
+
+            .chat-container {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .welcome-message-area {
+                max-width: 95%;
+            }
+
+            .welcome-text {
+                font-size: 1.2rem;
+            }
+
+            .question-text {
+                font-size: 1rem;
+            }
+
+            .chat-container::-webkit-scrollbar {
+                width: 3px;
+            }
+
+            .chat-container::-webkit-scrollbar-thumb {
+                border-radius: 2px;
+            }
+
+            .message-bubble {
+                padding: 10px 14px;
+                border-radius: 12px;
+                font-size: 14px;
+            }
+
+            .message-bubble table,
+            .message-bubble th,
+            .message-bubble td {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+            .message-bubble h3 {
+                font-size: 1em;
+                margin: 15px 0 8px 0;
+            }
+
+            .avatar {
+                width: 30px;
+                height: 30px;
+                margin: 0 6px;
+            }
+
+            .input-container {
+                padding: 10px;
+                gap: 6px;
+                flex-wrap: nowrap;
+            }
+
+            .input-textarea {
+                height: 40px;
+                padding: 8px 12px;
+                font-size: 14px;
+                flex-grow: 1;
+            }
+
+            .send-button, .mic-button {
+                padding: 8px;
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+
+            .send-button {
+                padding: 8px 16px;
+                min-width: 40px;
+                height: 40px;
+            }
+
+            .sheets-button {
+                width: 40px;
+                height: 40px;
+                margin-left: 6px;
+                border-radius: 10px;
+            }
+
+            .footer {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 0;
+                padding: 10px;
+            }
+
+            .header {
+                padding: 6px;
+            }
+
+            .header .logo {
+                width: 35px;
+            }
+
+            .header h1 {
+                font-size: 16px;
+            }
+
+            .toggle-switch {
+                width: 28px;
+                height: 14px;
+            }
+
+            .slider:before {
+                height: 10px;
+                width: 10px;
+                bottom: 2px;
+                left: 2px;
+            }
+
+            input:checked + .slider:before {
+                transform: translateX(14px);
+            }
+
+            .chat-container {
+                padding: 6px;
+                gap: 4px;
+            }
+
+            .message-bubble {
+                padding: 8px 10px;
+                border-radius: 10px;
+                font-size: 13px;
+            }
+
+            .message-bubble table,
+            .message-bubble th,
+            .message-bubble td {
+                font-size: 12px;
+                padding: 6px;
+            }
+
+            .message-bubble h3 {
+                font-size: 0.9em;
+                margin: 10px 0 6px 0;
+            }
+
+            .timestamp {
+                font-size: 9px;
+                line-height: 1.1;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            .avatar {
+                width: 25px;
+                height: 25px;
+                margin: 0 4px;
+            }
+
+            .input-container {
+                padding: 8px;
+                gap: 4px;
+            }
+
+            .input-textarea {
+                height: 36px;
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+
+            .send-button, .mic-button {
+                padding: 6px;
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+                border-radius: 8px;
+            }
+
+            .send-button {
+                padding: 6px 12px;
+                height: 36px;
+            }
+
+            .sheets-button {
+                width: 36px;
+                height: 36px;
+                margin-left: 4px;
+                border-radius: 8px;
+            }
+
+            .footer {
+                padding: 6px;
+                font-size: 11px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1000px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .message-bubble {
+                font-size: 16px;
+            }
+
+            .input-textarea {
+                font-size: 16px;
+            }
+        }
+
+        .sheets-button {
+            background: #000;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: clamp(14px, 1.8vw, 16px);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: -0.01em;
+            touch-action: manipulation;
+            width: 48px;
+            height: 48px;
+            margin-left: 8px;
+            box-shadow: 0 2px 8px rgba(74, 74, 74, 0.2);
+        }
+
+        .sheets-button:hover {
+            background: #4A4A4A;
+            box-shadow: 0 0 12px rgba(255, 107, 53, 0.9), 0 2px 6px rgba(255, 107, 53, 0.4);
+        }
+
+        .sheets-button.active {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+
+        .sheets-button {
+            display: none !important;
+        }
+
+        /* Sync button styles removed */
+
+        /* Add styles for document headers */
+        .document-header {
+            color: #ed5d05;
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+        }
+
+        .mute-slash {
+            display: none;
+        }
+
+        .sound-waves {
+            display: block;
+        }
+
+        .mute-button.muted .mute-slash {
+            display: block;
+        }
+
+        .mute-button.muted .sound-waves {
+            display: none;
+        }
+
+        .mute-button.glowing {
+             animation: glow 0.8s infinite alternate ease-in-out;
+        }
+
+        .send-button.glowing {
+             animation: glow 0.8s infinite alternate ease-in-out;
+        }
+
+        /* Enhanced Scrollable Table Container - Required for all tables - HIGH SPECIFICITY */
+        .message-bubble .table-scroll-container {
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            scroll-behavior: smooth !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 15px 0 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+            position: relative !important;
+            z-index: 1 !important;
+            /* Enhanced smooth scrolling */
+            -webkit-overflow-scrolling: touch !important;
+            /* Ensure container doesn't expand beyond parent */
+            box-sizing: border-box !important;
+            /* Always show horizontal scrollbar when needed */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(218, 32, 32, 0.7) rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ensure table content doesn't wrap - HIGH SPECIFICITY */
+        .message-bubble .table-scroll-container table,
+        .message-bubble .table-scroll-container .markdown-table {
+            white-space: nowrap !important;
+            min-width: 100% !important;
+            width: max-content !important;
+            display: table !important;
+        }
+
+        .message-bubble .table-scroll-container table th,
+        .message-bubble .table-scroll-container table td,
+        .message-bubble .table-scroll-container .markdown-table th,
+        .message-bubble .table-scroll-container .markdown-table td {
+            white-space: nowrap !important;
+        }
+
+        /* Enhanced Custom scrollbar styling for better UX - HIGH SPECIFICITY */
+        .message-bubble .table-scroll-container::-webkit-scrollbar {
+            height: 10px !important;
+            width: 10px !important;
+        }
+
+        .message-bubble .table-scroll-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1) !important;
+            border-radius: 5px !important;
+            margin: 0 2px !important;
+        }
+
+        .message-bubble .table-scroll-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, rgba(218, 32, 32, 0.7), rgba(237, 93, 5, 0.7)) !important;
+            border-radius: 5px !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .message-bubble .table-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, rgba(218, 32, 32, 0.9), rgba(237, 93, 5, 0.9)) !important;
+            transform: scaleY(1.1) !important;
+        }
+
+        .message-bubble .table-scroll-container::-webkit-scrollbar-corner {
+            background: transparent !important;
+        }
+
+        /* Firefox scrollbar styling */
+        .message-bubble .table-scroll-container {
+            scrollbar-width: thin !important;
+            scrollbar-color: rgba(218, 32, 32, 0.7) rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Styles for inline preview table - Now using table-scroll-container */
+        .table-wrapper-scroll {
+            /* Legacy class - now handled by .table-scroll-container */
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .preview-table-inline {
+            width: auto; 
+            min-width: 100%; 
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .preview-table-inline th,
+        .preview-table-inline td {
+            padding: 12px; 
+            border: 1px solid #ed5d05; 
+            text-align: left;
+            white-space: nowrap; 
+            color: #000; 
+        }
+
+        .preview-table-inline th {
+            background: #ed5d0587; 
+            color: #000; 
+            font-weight: 600;
+            white-space: normal; 
+        }
+        
+        .preview-table-inline tr:nth-child(even) {
+            background: rgba(235, 119, 37, 0.05); 
+        }
+
+        .preview-table-inline tr:hover {
+            background: rgba(37, 99, 235, 0.1); 
+        }
+
+        /* Enhanced mathematical expression styles */
+        .math-display {
+            margin: 15px 0;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #ed5d05;
+            overflow-x: auto;
+        }
+
+        .math-inline {
+            padding: 2px 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-family: 'Times New Roman', serif;
+        }
+
+        /* Enhanced markdown table styles - Updated for scrollable container */
+        .markdown-table {
+            width: 100%;
+            min-width: max-content; /* Ensure table doesn't shrink below content */
+            border-collapse: collapse;
+            margin: 0; /* Remove margin since container handles spacing */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: visible !important; /* Ensure table content is not hidden */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            table-layout: auto; /* Allow table to expand naturally */
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .markdown-table .table-header {
+            background: rgba(218, 32, 32, 0.15);
+            color: #1f1f1f;
+            font-weight: 600;
+            padding: 12px;
+            border: 1px solid rgba(218, 32, 32, 0.2);
+            text-align: left;
+            vertical-align: top;
+            word-wrap: break-word;
+            white-space: nowrap; /* Prevent header wrapping for scrollable tables */
+            min-width: max-content; /* Ensure headers don't shrink */
+        }
+
+        .markdown-table .table-cell {
+            padding: 10px 12px;
+            border: 1px solid rgba(218, 32, 32, 0.1);
+            color: #1f1f1f;
+            background: rgba(255, 255, 255, 0.05);
+            vertical-align: top;
+            word-wrap: break-word;
+            white-space: nowrap; /* Prevent cell content wrapping for scrollable tables */
+            min-width: max-content; /* Ensure cells don't shrink */
+        }
+
+        .markdown-table tr:nth-child(even) .table-cell {
+            background: rgba(235, 119, 37, 0.05);
+        }
+
+        .markdown-table tr:hover .table-cell {
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Ensure all table rows are visible */
+        .markdown-table tr {
+            display: table-row !important;
+            visibility: visible !important;
+            height: auto !important;
+            opacity: 1 !important;
+        }
+
+        .markdown-table tbody {
+            display: table-row-group !important;
+            visibility: visible !important;
+        }
+
+        /* Fix for table display issues - ensure tbody rows are shown */
+        .markdown-table tbody tr {
+            display: table-row !important;
+            visibility: visible !important;
+            height: auto !important;
+            opacity: 1 !important;
+        }
+        
+        /* Ensure all table elements are properly displayed */
+        .markdown-table,
+        .markdown-table * {
+            box-sizing: border-box !important;
+        }
+        
+        /* Fix for any overflow or hidden content issues - BUT allow scrollable containers */
+        .message-bubble {
+            overflow: visible !important;
+            max-width: 100% !important;
+        }
+        
+        /* Ensure ALL tables in message bubbles can scroll horizontally */
+        .message-bubble table {
+            max-width: none !important;
+            width: max-content !important;
+            min-width: 100% !important;
+        }
+        
+        /* Auto-scroll for tables not in containers - fallback */
+        /* Message text container - allow horizontal scroll for wide content */
+        .message-bubble .message-text {
+            overflow-x: auto !important;
+            overflow-y: visible !important;
+            max-width: 100% !important;
+            word-wrap: break-word !important;
+            /* Show scrollbar when needed */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(218, 32, 32, 0.5) rgba(0, 0, 0, 0.1);
+        }
+        
+        .message-bubble .message-text::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .message-bubble .message-text::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+        
+        .message-bubble .message-text::-webkit-scrollbar-thumb {
+            background: rgba(218, 32, 32, 0.5);
+            border-radius: 4px;
+        }
+        
+        .message-bubble .message-text::-webkit-scrollbar-thumb:hover {
+            background: rgba(218, 32, 32, 0.7);
+        }
+        
+        /* Ensure scrollable containers work even within message bubbles */
+        .message-bubble .table-scroll-container {
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            position: relative !important;
+            z-index: 1 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 15px 0 !important;
+            box-sizing: border-box !important;
+        }
+        
+        /* Tables inside scroll containers */
+        .message-bubble .table-scroll-container table,
+        .message-bubble .table-scroll-container .markdown-table {
+            overflow: visible !important;
+            max-height: none !important;
+            height: auto !important;
+            display: table !important;
+            width: 100% !important;
+            min-width: 100% !important;
+            table-layout: auto !important;
+            border-collapse: collapse !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Ensure proper structure for tables in scroll containers */
+        .message-bubble .table-scroll-container table thead,
+        .message-bubble .table-scroll-container .markdown-table thead {
+            display: table-header-group !important;
+        }
+
+        .message-bubble .table-scroll-container table tbody,
+        .message-bubble .table-scroll-container .markdown-table tbody {
+            display: table-row-group !important;
+        }
+
+        .message-bubble .table-scroll-container table tr,
+        .message-bubble .table-scroll-container .markdown-table tr {
+            display: table-row !important;
+        }
+
+        .message-bubble .table-scroll-container table th,
+        .message-bubble .table-scroll-container table td,
+        .message-bubble .table-scroll-container .markdown-table th,
+        .message-bubble .table-scroll-container .markdown-table td {
+            display: table-cell !important;
+        }
+        
+        /* Tables NOT in scroll containers - ensure proper structure */
+        .message-bubble table:not(.table-scroll-container table) {
+            display: table !important;
+            width: max-content;
+            min-width: 100%;
+            table-layout: auto;
+        }
+
+        /* Ensure table elements maintain proper structure */
+        .message-bubble table:not(.table-scroll-container table) thead {
+            display: table-header-group !important;
+        }
+
+        .message-bubble table:not(.table-scroll-container table) tbody {
+            display: table-row-group !important;
+        }
+
+        .message-bubble table:not(.table-scroll-container table) tr {
+            display: table-row !important;
+        }
+
+        .message-bubble table:not(.table-scroll-container table) th,
+        .message-bubble table:not(.table-scroll-container table) td {
+            display: table-cell !important;
+        }
+        
+        /* Force table elements to be visible and properly structured */
+        .markdown-table {
+            display: table !important;
+            border-collapse: collapse !important;
+            table-layout: auto !important;
+            width: 100% !important;
+            min-width: max-content !important;
+            box-sizing: border-box !important;
+        }
+
+        .markdown-table thead {
+            display: table-header-group !important;
+            visibility: visible !important;
+        }
+
+        .markdown-table tbody {
+            display: table-row-group !important;
+            visibility: visible !important;
+        }
+
+        .markdown-table tbody tr,
+        .markdown-table thead tr,
+        .markdown-table tr {
+            display: table-row !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            height: auto !important;
+            max-height: none !important;
+            overflow: visible !important;
+        }
+
+        .markdown-table th,
+        .markdown-table td {
+            display: table-cell !important;
+            padding: 10px 12px !important;
+            border: 1px solid rgba(218, 32, 32, 0.2) !important;
+        }
+
+        .markdown-table th {
+            background: rgba(218, 32, 32, 0.1) !important;
+            color: #1F7246 !important;
+            font-weight: 600 !important;
+            text-align: left !important;
+            border: 1px solid rgba(218, 32, 32, 0.3) !important;
+        }
+
+        .markdown-table td {
+            color: #374151 !important;
+            vertical-align: top !important;
+        }
+
+        /* Document comparison table styles */
+        .markdown-table .document-header {
+            background: rgba(218, 32, 32, 0.2);
+            color: #1f1f1f;
+            font-weight: 700;
+            padding: 15px 12px;
+            border: 2px solid rgba(218, 32, 32, 0.3);
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        /* Enhanced Mobile responsiveness for scrollable table containers - HIGH SPECIFICITY */
+        @media (max-width: 768px) {
+            .message-bubble .table-scroll-container {
+                margin: 12px 0 !important;
+                border-radius: 6px !important;
+                /* Enhanced scrollbar visibility and touch scrolling on mobile */
+                -webkit-overflow-scrolling: touch !important;
+                /* Better touch target size */
+                padding-bottom: 2px !important;
+            }
+            
+            .message-bubble .table-scroll-container::-webkit-scrollbar {
+                height: 14px !important; /* Larger scrollbar on mobile for easier touch */
+            }
+            
+            .message-bubble .table-scroll-container::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.15) !important;
+                border-radius: 7px !important;
+            }
+            
+            .message-bubble .table-scroll-container::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, rgba(218, 32, 32, 0.8), rgba(237, 93, 5, 0.8)) !important;
+                border-radius: 7px !important;
+                min-height: 20px !important; /* Ensure touch target is large enough */
+            }
+            
+            /* Ensure tables are fully scrollable on mobile */
+            .message-bubble .table-scroll-container .markdown-table {
+                min-width: 100% !important;
+            }
+            
+            .message-bubble .table-scroll-container .markdown-table th,
+            .message-bubble .table-scroll-container .markdown-table td {
+                padding: 10px 12px !important; /* Adequate padding for touch */
+                font-size: 13px !important; /* Readable font size */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .message-bubble .table-scroll-container {
+                margin: 10px 0 !important;
+                border-radius: 4px !important;
+                /* Extra touch-friendly scrolling */
+                -webkit-overflow-scrolling: touch !important;
+            }
+            
+            .message-bubble .table-scroll-container::-webkit-scrollbar {
+                height: 16px !important; /* Even larger scrollbar on very small screens */
+            }
+            
+            .message-bubble .table-scroll-container::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, rgba(218, 32, 32, 0.9), rgba(237, 93, 5, 0.9)) !important;
+                border-radius: 8px !important;
+                min-height: 24px !important;
+            }
+            
+            .message-bubble .table-scroll-container .markdown-table th,
+            .message-bubble .table-scroll-container .markdown-table td {
+                padding: 8px 10px !important; /* Optimized padding for small screens */
+                font-size: 12px !important; /* Smaller font for better fit */
+            }
+        }
+
+        /* CRITICAL: Force scrollable table containers to work - MAXIMUM SPECIFICITY */
+        .message-bubble .table-scroll-container {
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            /* Ensure container respects parent boundaries */
+            contain: layout style !important;
+            /* Prevent any overflow outside chat container */
+            clip-path: inset(0) !important;
+        }
+        
+        .message-bubble .table-scroll-container .markdown-table {
+            overflow: visible !important;
+            min-width: max-content !important;
+            width: 100% !important;
+            max-width: none !important;
+        }
+        
+        .message-bubble .table-scroll-container .markdown-table th,
+        .message-bubble .table-scroll-container .markdown-table td {
+            white-space: nowrap !important;
+            min-width: max-content !important;
+            /* Prevent cell content from breaking layout */
+            word-break: keep-all !important;
+        }
+
+        /* Visual indicators for scrollable content */
+        .message-bubble .table-scroll-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0.1), transparent);
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .message-bubble .table-scroll-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.1), transparent);
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Show scroll indicators when content overflows */
+        .message-bubble .table-scroll-container.scrollable-left::after {
+            opacity: 1;
+        }
+
+        .message-bubble .table-scroll-container.scrollable-right::before {
+            opacity: 1;
+        }
+
+        /* Fallback for browsers without ResizeObserver support */
+        @supports not (resize: none) {
+            .message-bubble .table-scroll-container {
+                /* Ensure basic functionality works */
+                overflow-x: scroll !important;
+            }
+        }
+
+        /* Ensure table scroll containers work in all scenarios */
+        .message-bubble .table-scroll-container {
+            /* Force hardware acceleration for smooth scrolling */
+            transform: translateZ(0) !important;
+            will-change: scroll-position !important;
+        }
+
+        /* Additional safety measures for viewport containment */
+        .chat-container {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+        }
+
+        /* Ensure message bubbles don't overflow chat container */
+        .message-bubble {
+            max-width: 100% !important;
+            overflow: visible !important;
+            word-wrap: break-word !important;
+        }
+
+        /* Retry button styles */
+        .retry-sync-btn {
+            background: #ed5d05 !important;
+            color: white !important;
+            border: none !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            margin-top: 10px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .retry-sync-btn:hover {
+            background: #d14d00 !important;
+            transform: scale(1.02) !important;
+            box-shadow: 0 2px 8px rgba(237, 93, 5, 0.3) !important;
+        }
+
+        .retry-sync-btn:disabled {
+            background: #a0a0a0 !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+        }
+
+
+        /* AI Assistant Cards Styles - Purple Theme */
+        .ai-cards-section {
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.8s ease;
+            overflow-y: auto;
+        }
+
+        .ai-cards-section.show {
+            display: flex;
+        }
+
+        .ai-cards-section.scatter-exit {
+            opacity: 0;
+            transform: scale(0.8);
+            filter: blur(10px);
+        }
+
+        .ai-cards-section.scatter-exit .ai-card {
+            animation: scatterCards 0.8s ease-out forwards;
+        }
+
+        @keyframes scatterCards {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+            100% { 
+                opacity: 0; 
+                transform: translateY(-100px) rotate(20deg) scale(0.5);
+                filter: blur(5px);
+            }
+        }
+
+        .cards-header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .cards-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1F7246;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(31, 114, 70, 0.2);
+        }
+
+        .cards-subtitle {
+            font-size: 0.9rem;
+            color: #2D5016;
+            max-width: 720px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .ai-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 
+                0 4px 15px rgba(31, 114, 70, 0.1),
+                0 15px 35px rgba(31, 114, 70, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid rgba(31, 114, 70, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            animation-delay: var(--delay, 0s);
+        }
+
+        .ai-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 8px 30px rgba(31, 114, 70, 0.25),
+                0 25px 50px rgba(31, 114, 70, 0.2);
+            border-color: #1F7246;
+        }
+
+        .ai-card:nth-child(1) { --delay: 0.1s; }
+        .ai-card:nth-child(2) { --delay: 0.2s; }
+        .ai-card:nth-child(3) { --delay: 0.3s; }
+        .ai-card:nth-child(4) { --delay: 0.4s; }
+        .ai-card:nth-child(5) { --delay: 0.5s; }
+        .ai-card:nth-child(6) { --delay: 0.6s; }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: #1F7246;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Dropdown Styles */
+        .dropdown-toggle {
+            font-size: 1rem;
+            color: #6B7280;
+            cursor: pointer;
+            margin-left: 12px;
+            transition: transform 0.3s ease;
+            user-select: none;
+            padding: 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            min-height: 24px;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(107, 114, 128, 0.1);
+        }
+
+        /* Arrow rotation now handled by icon class changes in JavaScript */
+
+        .dropdown-content {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(31, 114, 70, 0.2);
+            animation: slideDown 0.3s ease-out;
+            max-height: none;
+            overflow-y: visible;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            background: rgba(31, 114, 70, 0.05);
+            border-radius: 6px;
+            color: #1F7246
+;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(31, 114, 70, 0.1);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(31, 114, 70, 0.1);
+            border-color: rgba(31, 114, 70, 0.3);
+            transform: translateX(4px);
+        }
+
+        .dropdown-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Ensure only one dropdown is open at a time */
+        .cards-grid .ai-card:not(.active) .dropdown-content {
+            display: none !important;
+        }
+
+        /* Arrow state now handled by icon class changes in JavaScript */
+
+        .cards-grid .ai-card.active .dropdown-content {
+            display: block !important;
+        }
+
+        /* Reset all cards initially */
+        .cards-grid .ai-card {
+            transition: all 0.3s ease;
+        }
+
+        .cards-grid .ai-card .dropdown-content {
+            display: none;
+        }
+
+        /* Arrow state now handled by icon class changes in JavaScript */
+
+        /* Show More Button Styles */
+        .show-more-button {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #1F7246
+, #EF4444);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(31, 114, 70, 0.3);
+            margin-top: 20px;
+        }
+
+        .show-more-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31, 114, 70, 0.4);
+        }
+
+        .show-more-arrow {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        /* Arrow rotation now handled by icon class changes in JavaScript */
+
+        .additional-categories {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .additional-categories.show {
+            display: grid;
+        }
+
+        /* Suggested Prompts Styles */
+        /* Inline suggestions container (no box/heading) */
+        .suggested-inline {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 80%;
+            margin-left: auto;
+            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Title removed per requirement */
+
+        .suggested-prompts-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        /* Ensure prompt gallery button shows inside suggestions block */
+        .suggested-inline .chat-prompt-gallery-btn {
+            display: inline-flex !important;
+        }
+
+        .suggested-prompt-btn {
+            padding: 10px 16px;
+            background: #ffffff;
+            border: 1.5px solid rgba(31, 114, 70, 0.35);
+            border-radius: 9999px; /* pill */
+            color: #1F7246
+;
+            font-size: 0.9rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            box-shadow: 0 1px 2px rgba(31, 114, 70, 0.08);
+        }
+
+        .suggested-prompt-btn:hover,
+        .suggested-prompt-btn:focus {
+            background: rgba(31, 114, 70, 0.06);
+            border-color: rgba(31, 114, 70, 0.6);
+            outline: none;
+            transform: translateY(-1px);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ai-cards-section {
+                padding: 15px;
+            }
+            .cards-title {
+                font-size: 1.8rem;
+            }
+            .cards-subtitle {
+                font-size: 1rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .ai-card {
+                padding: 16px;
+            }
+            .card-title {
+                font-size: 1.1rem;
+            }
+            .card-description {
+                font-size: 0.9rem;
+            }
+        }
+        /* Quick fix to restore textarea scrollbar */
+        #user-input {
+            overflow-y: scroll !important;
+            scrollbar-width: auto !important;
+            -ms-overflow-style: auto !important;
+        }
+
+        #user-input::-webkit-scrollbar {
+            display: block !important;
+            width: 6px !important;
+        }
+
+        #user-input::-webkit-scrollbar-thumb {
+            background: #aaaaaa;
+            border-radius: 3px;
+        }
+
+        /* ========================================
+           ENHANCED PROMPT CARD STYLING
+           ======================================== */
+
+        /* 1. ENHANCED BOX SHADOWS FOR ALL PROMPT CARDS */
+        .prompt-card,
+        .prompt-card-main,
+        .prompt-card-extended {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
+                        0 1px 3px rgba(0, 0, 0, 0.12) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border-radius: 16px !important;
+            background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%) !important;
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+            backface-visibility: hidden;
+        }
+
+        /* Enhanced shadow on hover */
+        .prompt-card:hover,
+        .prompt-card-main:hover,
+        .prompt-card-extended:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12),
+                        0 2px 6px rgba(0, 0, 0, 0.16) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        /* Expanded card shadow adjustment */
+        .prompt-card.expanded,
+        .prompt-card-extended.expanded {
+            box-shadow: 0 6px 18px rgba(31, 114, 70, 0.15),
+                        0 2px 4px rgba(31, 114, 70, 0.08) !important;
+        }
+
+        /* Subtle inner highlight */
+        .prompt-card::before,
+        .prompt-card-main::before,
+        .prompt-card-extended::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                transparent 100%);
+            pointer-events: none;
+        }
+
+        /* 2. CENTER ICONS IN CARDS */
+        .prompt-card .card-icon,
+        .prompt-card-main .card-icon,
+        .prompt-card-extended .card-icon,
+        .card-header-main .card-icon,
+        .card-header-extended .card-icon {
+            margin: 0 auto 16px auto !important;
+            text-align: center !important;
+            background: #1F7246 !important;
+            color: white !important;
+            border-radius: 10px !important;
+            font-size: 20px !important;
+            box-shadow: 0 2px 4px rgba(31, 114, 70, 0.2) !important;
+        }
+        /* 3. RESPONSIVE ADJUSTMENTS */
+        /* Mobile responsive shadows */
+        @media (max-width: 768px) {
+            .prompt-card,
+            .prompt-card-main,
+            .prompt-card-extended {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06),
+                            0 1px 2px rgba(0, 0, 0, 0.10) !important;
+            }
+
+            .prompt-card:hover,
+            .prompt-card-main:hover,
+            .prompt-card-extended:hover {
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10), 
+                            0 1px 4px rgba(0, 0, 0, 0.14) !important;
+                transform: translateY(-1px) !important;
+            }
+
+            .prompt-card .card-icon,
+            .prompt-card-main .card-icon,
+            .prompt-card-extended .card-icon,
+            .card-header-main .card-icon,
+            .card-header-extended .card-icon {
+                width: 40px !important;
+                height: 40px !important;
+                margin-bottom: 16px !important;
+            }
+        }
+
+        /* Tablet adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .prompt-card,
+            .prompt-card-main,
+            .prompt-card-extended {
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07),
+                            0 1px 2px rgba(0, 0, 0, 0.11) !important;
+            }
+        }
+
+        /* 4. GRID LAYOUT ENHANCEMENTS */
+        .main-prompt-cards,
+        .extended-cards-grid {
+            display: grid !important;
+            gap: 24px !important;
+            margin-bottom: 32px !important;
+        }
+
+        .main-prompt-cards {
+            grid-template-columns: repeat(3, 1fr) !important;
+        }
+
+        .extended-cards-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+        }
+
+        .main-prompt-cards .prompt-card-main,
+        .extended-cards-grid .prompt-card-extended {
+            height: auto !important;
+            min-height: 200px !important;
+            align-self: start !important;
+        }
+        /* Mobile grid adjustments */
+        @media (max-width: 767px) {
+            .main-prompt-cards,
+            .extended-cards-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+        }
+
+        /* Tablet grid adjustments */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .main-prompt-cards,
+            .extended-cards-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 20px !important;
+            }
+        }
+
+        /* 5. ACCESSIBILITY AND PERFORMANCE */
+        /* Respect user's motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .prompt-card,
+            .prompt-card-main,
+            .prompt-card-extended,
+            .prompt-card:hover,
+            .prompt-card-main:hover,
+            .prompt-card-extended:hover {
+                transition: none !important;
+                transform: none !important;
+            }
+        }
+
+        /* High contrast mode adjustments */
+        @media (prefers-contrast: high) {
+            .prompt-card,
+            .prompt-card-main,
+            .prompt-card-extended {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+                            0 1px 3px rgba(0, 0, 0, 0.4) !important;
+                border: 1px solid #000 !important;
+            }
+        }
+
+        /* 6. PRESERVE ALL EXISTING FUNCTIONALITY */
+        /* Ensure dropdown toggles remain functional */
+        .prompt-card .dropdown-toggle {
+            position: absolute !important;
+            top: 24px !important;
+            right: 24px !important;
+            z-index: 2 !important;
+        }
+        
+        /* Extended card toggles are now inline with the title */
+        .prompt-card-extended .dropdown-toggle {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            z-index: 2 !important;
+        }
+
+        /* Ensure expanded content works properly */
+        .card-expanded-content {
+            z-index: 1 !important;
+        }
+
+        /* Ensure hover states don't interfere with interactions */
+        .prompt-card:hover .dropdown-toggle,
+        .prompt-card-extended:hover .dropdown-toggle {
+            pointer-events: auto !important;
+        }
+
+        /* 7. SPECIFIC OVERRIDES FOR CONSISTENCY */
+        /* Override any conflicting styles */
+        .prompt-card .card-icon {
+            font-size: 20px !important;
+            margin-bottom: 16px !important;
+            display: flex !important;
+        }
+
+        .prompt-card .card-title {
+            font-size: 18px !important;
+            font-weight: 600 !important;
+            color: #1f2937 !important;
+            margin: 0 0 8px 0 !important;
+            line-height: 1.3 !important;
+        }
+
+        .prompt-card .card-description {
+            font-size: 14px !important;
+            color: #6b7280 !important;
+            margin: 0 !important;
+            line-height: 1.4 !important;
+        }
+
+        /* 8. TITLE ALIGNMENT ENHANCEMENTS */
+        /* Ensure all card titles are properly aligned */
+        .card-header-main,
+        .card-header-extended,
+        .card-header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            margin-bottom: 16px !important;
+            min-height: 44px !important; /* Match icon height for consistent alignment */
+        }
+
+        /* Title alignment within headers */
+        .card-header-main .card-title,
+        .card-header-extended .card-title,
+        .card-header .card-title {
+            display: flex !important;
+            align-items: center !important;
+            flex: 1 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 18px !important;
+            font-weight: 600 !important;
+            color: #1f2937 !important;
+            line-height: 1.3 !important;
+            text-align: left !important;
+            vertical-align: middle !important;
+            height: auto !important;
+            min-height: 24px !important; /* Ensure minimum height for consistency */
+        }
+
+        /* Ensure dropdown arrows are properly positioned */
+        .card-header-main .dropdown-toggle,
+        .card-header-extended .dropdown-toggle {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-left: 8px !important;
+            flex-shrink: 0 !important;
+            height: 28px !important;
+            width: 28px !important;
+            background: transparent !important;
+        }
+        
+        .card-header .dropdown-toggle {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-left: auto !important;
+            flex-shrink: 0 !important;
+            height: 32px !important;
+            width: 32px !important;
+        }
+
+        /* Icon alignment within headers */
+        .card-header-main .card-icon,
+        .card-header-extended .card-icon,
+        .card-header .card-icon {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-right: 12px !important;
+            margin-left: 0 !important;
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+            width: 44px !important;
+            height: 44px !important;
+        }
+
+        /* Responsive title alignment */
+        @media (max-width: 768px) {
+            .card-header-main,
+            .card-header-extended,
+            .card-header {
+                min-height: 40px !important; /* Match mobile icon height */
+            }
+
+            .card-header-main .card-title,
+            .card-header-extended .card-title,
+            .card-header .card-title {
+                font-size: 16px !important;
+                min-height: 20px !important;
+            }
+
+            .card-header-main .card-icon,
+            .card-header-extended .card-icon,
+            .card-header .card-icon {
+                width: 40px !important;
+                height: 40px !important;
+            }
+        }
+
+        /* Ensure consistent spacing for all card types */
+        .prompt-card-main,
+        .prompt-card-extended,
+        .prompt-card {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        /* Fix any potential text wrapping issues */
+        .card-header-main .card-title,
+        .card-header-extended .card-title,
+        .card-header .card-title {
+            overflow-wrap: break-word !important;
+            hyphens: auto !important;
+            white-space: normal !important;
+            word-break: normal !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
+            overflow: hidden !important;
+            min-height: 2.em !important;
+        }
+
+        /* Ensure proper spacing between title and description */
+        .prompt-card-main .card-description,
+        .prompt-card-extended .card-description,
+        .prompt-card .card-description {
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+        }
+
+    
