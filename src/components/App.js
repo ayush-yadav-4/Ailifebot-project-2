@@ -105,8 +105,8 @@ function App() {
         // Use normalizer utility for OCI response
         data = normalizeOCIResponse(data);
       } else {
-        // Directly call AWS API Gateway endpoint
-        const AWS_API_URL = process.env.REACT_APP_CHAT_API_URL || "https://qgpel27gok.execute-api.ap-south-1.amazonaws.com/dev/master";
+        // Directly call AWS API Gateway endpoint for answering user questions
+        const AWS_API_URL = "https://qgpel27gok.execute-api.ap-south-1.amazonaws.com/dev/master";
         console.log(`Sending request to AWS API Gateway: ${AWS_API_URL}`);
         const response = await fetch(AWS_API_URL, {
           method: 'POST',
@@ -193,6 +193,7 @@ function App() {
             )
           : (data.response || 'No response received.'),
         sql_query: data.sql_query || data.sql || null,
+        cache_id: data.cache_id || null,
         suggestions: finalDataRows || null,
         dataRows: finalDataRows,
         dataColumns: finalDataColumns,

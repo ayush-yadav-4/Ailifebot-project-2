@@ -11,6 +11,9 @@ import excelIcon from '../../assets/images/excel.png';
  */
 function MessageActions({ message, index, messages = [] }) {
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isFetchingSummary, setIsFetchingSummary] = useState(false);
+  const [summaryAttempts, setSummaryAttempts] = useState(0);
+  const [detailedSummary, setDetailedSummary] = useState('');
   // const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   // const [selectedRating, setSelectedRating] = useState(null);
   // const [activeFeedback, setActiveFeedback] = useState(null);
@@ -141,6 +144,71 @@ function MessageActions({ message, index, messages = [] }) {
   //   }
   // };
 
+  /**
+   * Handle "Get Detailed Summary" click
+   * Uses cache_id from the message to call the summary endpoint once,
+   * and allows one retry on failure. After success, button is disabled.
+   */
+  const handleDetailedSummary = async () => {
+    if (!message.cache_id) {
+      showNotification('Detailed summary is not available for this response.', 'error');
+      return;
+    }
+
+    // Do not allow more than 2 attempts (1 initial + 1 retry)
+    if (isFetchingSummary || summaryAttempts >= 2 || detailedSummary) {
+      return;
+    }
+
+    setIsFetchingSummary(true);
+    try {
+      // Fixed summary endpoint for detailed analysis using cache_id
+      const SUMMARY_API_URL = 'https://ytfvdexbhj.execute-api.ap-south-1.amazonaws.com/prod/query';
+
+      const response = await fetch(SUMMARY_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cache_id: message.cache_id })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Summary API error ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // Try to extract a meaningful summary from the response
+      let summaryText = '';
+      if (result.data && typeof result.data.analysis === 'string') {
+        summaryText = result.data.analysis;
+      } else if (typeof result.analysis === 'string') {
+        summaryText = result.analysis;
+      } else if (typeof result.response === 'string') {
+        summaryText = result.response;
+      } else {
+        // Fallback: stringify result
+        summaryText = JSON.stringify(result, null, 2);
+      }
+
+      setDetailedSummary(summaryText);
+      showNotification('Detailed summary loaded.', 'success');
+    } catch (error) {
+      console.error('Error fetching detailed summary:', error);
+      setSummaryAttempts(prev => prev + 1);
+
+      const remaining = 1 - (summaryAttempts); // because we increment after this call
+      if (remaining > 0) {
+        showNotification('Failed to fetch detailed summary. You can try once more.', 'error');
+      } else {
+        showNotification('Failed to fetch detailed summary. Please try again later.', 'error');
+      }
+    } finally {
+      setIsFetchingSummary(false);
+    }
+  };
+
   return (
     <>
       <div className="message-actions">
@@ -192,7 +260,59 @@ function MessageActions({ message, index, messages = [] }) {
           </svg>
         </button> */}
       </div>
-      
+
+      {/* Big Detailed Summary button at bottom-left of the message */}
+      {message.cache_id && (
+        <div
+          className="summary-button-container"
+          style={{
+            marginTop: 10,
+            display: 'flex',
+            justifyContent: 'flex-start'
+          }}
+        >
+          <button
+            className="summary-btn-primary"
+            onClick={handleDetailedSummary}
+            aria-label="Get detailed summary"
+            disabled={isFetchingSummary || !!detailedSummary || summaryAttempts >= 2}
+            style={{
+              padding: '10px 22px',
+              borderRadius: '999px',
+              border: 'none',
+              cursor: isFetchingSummary || detailedSummary || summaryAttempts >= 2 ? 'not-allowed' : 'pointer',
+              background: '#1F7246',
+              color: '#fff',
+              fontWeight: 600,
+              fontSize: '0.9rem',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              opacity: isFetchingSummary || detailedSummary || summaryAttempts >= 2 ? 0.7 : 1
+            }}
+          >
+            <span>
+              {isFetchingSummary
+                ? 'Loading detailed summary...'
+                : detailedSummary
+                  ? 'Detailed summary loaded'
+                  : 'Get Detailed Summary'}
+            </span>
+          </button>
+        </div>
+      )}
+
+      {/* Detailed summary content - rendered in the same message container */}
+      {detailedSummary && (
+        <div className="detailed-summary-block" style={{ marginTop: 12, padding: '8px 0', borderTop: '1px dashed #ddd' }}>
+          <div style={{ fontWeight: 600, marginBottom: 4 }}>Detailed Summary</div>
+          <div style={{ whiteSpace: 'pre-wrap', fontSize: '0.95em', color: '#333' }}>
+            {detailedSummary}
+          </div>
+        </div>
+      )}
+
       {/* Feedback Modal */}
       {/* {showFeedbackModal && (
         <FeedbackModal
