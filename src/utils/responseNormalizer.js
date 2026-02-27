@@ -159,23 +159,23 @@ export function normalizeOCIResponse(data) {
       // Ensure first column exists and is valid
       const firstColumn = columns[0];
       if (firstColumn && firstColumn.trim() !== '') {
-        // Find numeric column for Y axis (skip first column usually labels)
-        let numericColIndex = -1;
-        for (let i = 1; i < columns.length; i++) {
-          const sampleVal = Array.isArray(rows[0]) ? rows[0][i] : rows[0][columns[i]];
-          if (typeof sampleVal === 'number' || (typeof sampleVal === 'string' && !isNaN(parseFloat(sampleVal)))) {
-            numericColIndex = i;
-            break;
-          }
+      // Find numeric column for Y axis (skip first column usually labels)
+      let numericColIndex = -1;
+      for (let i = 1; i < columns.length; i++) {
+        const sampleVal = Array.isArray(rows[0]) ? rows[0][i] : rows[0][columns[i]];
+        if (typeof sampleVal === 'number' || (typeof sampleVal === 'string' && !isNaN(parseFloat(sampleVal)))) {
+          numericColIndex = i;
+          break;
         }
+      }
 
         if (numericColIndex !== -1 && columns[numericColIndex]) {
-          normalized.visualization = {
-            chartType: 'bar',
+        normalized.visualization = {
+          chartType: 'bar',
             xAxis: firstColumn,
-            yAxis: columns[numericColIndex],
-            title: normalized.title || 'Data Visualization'
-          };
+          yAxis: columns[numericColIndex],
+          title: normalized.title || 'Data Visualization'
+        };
         }
       }
     }

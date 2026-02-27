@@ -4,6 +4,7 @@ import { generateExcelFromData, generateExcelFromResponse } from '../../utils/ex
 // import { trackDownload } from '../../utils/feedbackService';
 // import FeedbackModal from '../modals/FeedbackModal';
 import excelIcon from '../../assets/images/excel.png';
+import Chart from './Chart';
 
 /**
  * Message Actions Component
@@ -12,8 +13,12 @@ import excelIcon from '../../assets/images/excel.png';
 function MessageActions({ message, index, messages = [] }) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isFetchingSummary, setIsFetchingSummary] = useState(false);
-  const [summaryAttempts, setSummaryAttempts] = useState(0);
   const [detailedSummary, setDetailedSummary] = useState('');
+  const [summaryMode, setSummaryMode] = useState('eco'); // 'eco' or 'standard'
+  const [lastSummaryModeUsed, setLastSummaryModeUsed] = useState(null); // freezes mode label/output until next fetch
+  const [summaryTableRows, setSummaryTableRows] = useState(null);
+  const [summaryTableColumns, setSummaryTableColumns] = useState(null);
+  const [summaryVisualization, setSummaryVisualization] = useState(null);
   // const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   // const [selectedRating, setSelectedRating] = useState(null);
   // const [activeFeedback, setActiveFeedback] = useState(null);
@@ -146,8 +151,8 @@ function MessageActions({ message, index, messages = [] }) {
 
   /**
    * Handle "Get Detailed Summary" click
-   * Uses cache_id from the message to call the summary endpoint once,
-   * and allows one retry on failure. After success, button is disabled.
+   * Uses cache_id from the message to call the summary endpoint.
+   * User can request summaries multiple times and switch modes freely.
    */
   const handleDetailedSummary = async () => {
     if (!message.cache_id) {
@@ -155,8 +160,8 @@ function MessageActions({ message, index, messages = [] }) {
       return;
     }
 
-    // Do not allow more than 2 attempts (1 initial + 1 retry)
-    if (isFetchingSummary || summaryAttempts >= 2 || detailedSummary) {
+    // Block only while a request is in-flight
+    if (isFetchingSummary) {
       return;
     }
 
@@ -165,16 +170,21 @@ function MessageActions({ message, index, messages = [] }) {
       // Fixed summary endpoint for detailed analysis using cache_id
       const SUMMARY_API_URL = 'https://ytfvdexbhj.execute-api.ap-south-1.amazonaws.com/prod/query';
 
+      // Map UI mode to backend mode value (backend likely expects 'eco' or 'detailed')
+      const backendMode = summaryMode === 'eco' ? 'eco' : 'detailed';
+
       const response = await fetch(SUMMARY_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ cache_id: message.cache_id })
+        // Send cache_id and selected mode (eco / detailed) as expected by backend
+        body: JSON.stringify({ cache_id: message.cache_id, mode: backendMode })
       });
 
       if (!response.ok) {
-        throw new Error(`Summary API error ${response.status}`);
+        const errorText = await response.text().catch(() => '');
+        throw new Error(`Summary API error ${response.status}${errorText ? `: ${errorText}` : ''}`);
       }
 
       const result = await response.json();
@@ -187,23 +197,48 @@ function MessageActions({ message, index, messages = [] }) {
         summaryText = result.analysis;
       } else if (typeof result.response === 'string') {
         summaryText = result.response;
-      } else {
-        // Fallback: stringify result
-        summaryText = JSON.stringify(result, null, 2);
       }
 
       setDetailedSummary(summaryText);
+      setLastSummaryModeUsed(summaryMode);
+
+      // Capture suggested visualization, if provided by backend
+      if (result.visualization && typeof result.visualization === 'object') {
+        setSummaryVisualization(result.visualization);
+      } else {
+        setSummaryVisualization(null);
+      }
+
+      // For eco mode: keep output lightweight (text-only, no table)
+      // For standard mode: render full tabular view if present
+      if (summaryMode === 'standard') {
+        if (Array.isArray(result.data) && result.data.length > 0) {
+          setSummaryTableRows(result.data);
+
+          if (Array.isArray(result.columns) && result.columns.length > 0) {
+            setSummaryTableColumns(result.columns);
+          } else if (typeof result.data[0] === 'object' && result.data[0] !== null) {
+            setSummaryTableColumns(Object.keys(result.data[0]));
+          }
+        } else if (Array.isArray(result.rows) && result.rows.length > 0) {
+          // Fallback to rows/columns format if present
+          setSummaryTableRows(result.rows);
+          if (Array.isArray(result.columns)) {
+            setSummaryTableColumns(result.columns);
+          }
+        } else {
+          setSummaryTableRows(null);
+          setSummaryTableColumns(null);
+        }
+      } else {
+        // Eco mode: no heavy table rendering
+        setSummaryTableRows(null);
+        setSummaryTableColumns(null);
+      }
       showNotification('Detailed summary loaded.', 'success');
     } catch (error) {
       console.error('Error fetching detailed summary:', error);
-      setSummaryAttempts(prev => prev + 1);
-
-      const remaining = 1 - (summaryAttempts); // because we increment after this call
-      if (remaining > 0) {
-        showNotification('Failed to fetch detailed summary. You can try once more.', 'error');
-      } else {
-        showNotification('Failed to fetch detailed summary. Please try again later.', 'error');
-      }
+      showNotification('Failed to fetch detailed summary. Please try again.', 'error');
     } finally {
       setIsFetchingSummary(false);
     }
@@ -261,26 +296,74 @@ function MessageActions({ message, index, messages = [] }) {
         </button> */}
       </div>
 
-      {/* Big Detailed Summary button at bottom-left of the message */}
+      {/* Big Detailed Summary controls at bottom-left of the message */}
       {message.cache_id && (
         <div
           className="summary-button-container"
           style={{
             marginTop: 10,
             display: 'flex',
-            justifyContent: 'flex-start'
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            gap: 12,
+            flexWrap: 'wrap'
           }}
         >
+          {/* Mode selector: Eco vs Standard */}
+          <div
+            className="summary-mode-toggle"
+            style={{
+              display: 'inline-flex',
+              borderRadius: 999,
+              border: '1px solid #e0e0e0',
+              overflow: 'hidden',
+              background: '#f9f9f9'
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => !isFetchingSummary && setSummaryMode('eco')}
+              style={{
+                padding: '6px 12px',
+                border: 'none',
+                cursor: isFetchingSummary ? 'not-allowed' : 'pointer',
+                background: summaryMode === 'eco' ? '#1F7246' : 'transparent',
+                color: summaryMode === 'eco' ? '#fff' : '#555',
+                fontSize: '0.8rem',
+                fontWeight: 600
+              }}
+            >
+              Eco
+            </button>
+            <button
+              type="button"
+              onClick={() => !isFetchingSummary && setSummaryMode('standard')}
+              style={{
+                padding: '6px 12px',
+                border: 'none',
+                cursor: isFetchingSummary ? 'not-allowed' : 'pointer',
+                background: summaryMode === 'standard' ? '#1F7246' : 'transparent',
+                color: summaryMode === 'standard' ? '#fff' : '#555',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                borderLeft: '1px solid #e0e0e0'
+              }}
+            >
+              Standard
+            </button>
+          </div>
+
+          {/* Main summary trigger button */}
           <button
             className="summary-btn-primary"
             onClick={handleDetailedSummary}
             aria-label="Get detailed summary"
-            disabled={isFetchingSummary || !!detailedSummary || summaryAttempts >= 2}
+            disabled={isFetchingSummary}
             style={{
               padding: '10px 22px',
               borderRadius: '999px',
               border: 'none',
-              cursor: isFetchingSummary || detailedSummary || summaryAttempts >= 2 ? 'not-allowed' : 'pointer',
+              cursor: isFetchingSummary ? 'not-allowed' : 'pointer',
               background: '#1F7246',
               color: '#fff',
               fontWeight: 600,
@@ -289,27 +372,122 @@ function MessageActions({ message, index, messages = [] }) {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
-              opacity: isFetchingSummary || detailedSummary || summaryAttempts >= 2 ? 0.7 : 1
+              opacity: isFetchingSummary ? 0.7 : 1
             }}
-          >
+            >
             <span>
               {isFetchingSummary
-                ? 'Loading detailed summary...'
-                : detailedSummary
-                  ? 'Detailed summary loaded'
-                  : 'Get Detailed Summary'}
+                ? `Loading ${summaryMode} summary...`
+                : `Get ${summaryMode === 'eco' ? 'Eco' : 'Standard'} Summary`}
             </span>
           </button>
         </div>
       )}
 
       {/* Detailed summary content - rendered in the same message container */}
-      {detailedSummary && (
-        <div className="detailed-summary-block" style={{ marginTop: 12, padding: '8px 0', borderTop: '1px dashed #ddd' }}>
-          <div style={{ fontWeight: 600, marginBottom: 4 }}>Detailed Summary</div>
-          <div style={{ whiteSpace: 'pre-wrap', fontSize: '0.95em', color: '#333' }}>
-            {detailedSummary}
-          </div>
+      {(detailedSummary || (summaryTableRows && summaryTableColumns)) && (
+        <div className="detailed-summary-block" style={{ marginTop: 12, padding: '10px 0', borderTop: '1px dashed #ddd' }}>
+          {detailedSummary && (
+            <div style={{ marginBottom: 8 }}>
+              <div style={{ fontWeight: 600, marginBottom: 4 }}>
+                {lastSummaryModeUsed === 'standard' ? 'Detailed Analysis (Standard Mode)' : 'Summary (Eco Mode)'}
+              </div>
+              <div style={{ whiteSpace: 'pre-wrap', fontSize: '0.95em', color: '#333' }}>
+                {detailedSummary}
+              </div>
+            </div>
+          )}
+
+          {summaryTableRows && summaryTableColumns && (
+            <div
+              className="summary-table-wrapper"
+              style={{
+                marginTop: 4,
+                maxHeight: 320,
+                overflow: 'auto',
+                borderRadius: 8,
+                border: '1px solid #e0e0e0',
+                background: '#fafafa'
+              }}
+            >
+              <table
+                style={{
+                  width: '100%',
+                  borderCollapse: 'collapse',
+                  fontSize: '0.85rem'
+                }}
+              >
+                <thead>
+                  <tr>
+                    {summaryTableColumns.map((col) => (
+                      <th
+                        key={col}
+                        style={{
+                          position: 'sticky',
+                          top: 0,
+                          background: '#f1f5f9',
+                          padding: '6px 8px',
+                          textAlign: 'left',
+                          borderBottom: '1px solid #e0e0e0',
+                          fontWeight: 600,
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {col}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {summaryTableRows.map((row, idx) => (
+                    <tr
+                      key={idx}
+                      style={{
+                        background: idx % 2 === 0 ? '#ffffff' : '#f8fafc'
+                      }}
+                    >
+                      {Array.isArray(row)
+                        ? summaryTableColumns.map((_, colIdx) => (
+                            <td
+                              key={colIdx}
+                              style={{
+                                padding: '6px 8px',
+                                borderBottom: '1px solid #f1f5f9',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              {row[colIdx]}
+                            </td>
+                          ))
+                        : summaryTableColumns.map((col) => (
+                            <td
+                              key={col}
+                              style={{
+                                padding: '6px 8px',
+                                borderBottom: '1px solid #f1f5f9',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              {row[col]}
+                            </td>
+                          ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Render chart for standard mode if backend provides visualization + tabular data.
+              Uses lastSummaryModeUsed so toggling the mode does not mutate an existing output. */}
+          {lastSummaryModeUsed === 'standard' && summaryVisualization && summaryTableRows && summaryTableColumns && (
+            <div style={{ marginTop: 10 }}>
+              <Chart
+                visualization={summaryVisualization}
+                data={{ rows: summaryTableRows, columns: summaryTableColumns }}
+              />
+            </div>
+          )}
         </div>
       )}
 

@@ -150,7 +150,7 @@ function App() {
 
       const finalDataRows = possibleRows || visualizationDataRows || null;
       const finalDataColumns = possibleColumns || visualizationDataColumns || null;
-
+      
       const hasTabularData =
         finalDataRows &&
         Array.isArray(finalDataRows) &&
@@ -162,13 +162,13 @@ function App() {
       const assistantMessage = {
         role: 'assistant',
         text: hasTabularData
-          ? (
+            ? (
               // Render a markdown-based report for the data whenever we have tabular rows/columns
-              (data.analysis ? `${data.analysis}\n\n` : '') +
-              (data.title ? `### ${data.title}\n\n` : '') +
-              (data.subtitle ? `#### ${data.subtitle}\n\n` : '') +
-              '| ' + finalDataColumns.join(' | ') + ' |\n' +
-              '| ' + finalDataColumns.map(() => '---').join(' | ') + ' |\n' +
+                (data.analysis ? `${data.analysis}\n\n` : '') +
+                (data.title ? `### ${data.title}\n\n` : '') +
+                (data.subtitle ? `#### ${data.subtitle}\n\n` : '') +
+                '| ' + finalDataColumns.join(' | ') + ' |\n' +
+                '| ' + finalDataColumns.map(() => '---').join(' | ') + ' |\n' +
               finalDataRows
                 .map(row =>
                   '| ' +
@@ -190,8 +190,8 @@ function App() {
                       : data.recentVendorDistribution
                   }`
                 : '')
-            )
-          : (data.response || 'No response received.'),
+              )
+            : (data.response || 'No response received.'),
         sql_query: data.sql_query || data.sql || null,
         cache_id: data.cache_id || null,
         suggestions: finalDataRows || null,
