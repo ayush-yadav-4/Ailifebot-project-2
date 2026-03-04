@@ -167,18 +167,33 @@ function MessageActions({ message, index, messages = [] }) {
 
     setIsFetchingSummary(true);
     try {
-      // Fixed summary endpoint for detailed analysis using cache_id
-      const SUMMARY_API_URL = 'https://ytfvdexbhj.execute-api.ap-south-1.amazonaws.com/prod/query';
+      // Determine which endpoint to use based on backend type (OCI or AWS)
+      const messageBackendType = message.backendType || 'AWS'; // Default to AWS if not set
+      
+      let SUMMARY_API_URL;
+      if (messageBackendType === 'OCI') {
+        // OCI analysis endpoint
+        SUMMARY_API_URL = 'https://kkthcckqby2ta244ytlu4r25xi.apigateway.ap-hyderabad-1.oci.customer-oci.com/api/analysis';
+      } else {
+        // AWS analysis endpoint
+        SUMMARY_API_URL = 'https://ytfvdexbhj.execute-api.ap-south-1.amazonaws.com/prod/query';
+      }
 
-      // Map UI mode to backend mode value (backend likely expects 'eco' or 'detailed')
-      const backendMode = summaryMode === 'eco' ? 'eco' : 'detailed';
+      // Map UI mode to backend mode value
+      // For OCI: use 'eco' or 'standard' directly
+      // For AWS: use 'eco' or 'detailed' (backend accepts 'standard' as alias for 'detailed')
+      const backendMode = messageBackendType === 'OCI' 
+        ? (summaryMode === 'eco' ? 'eco' : 'standard')
+        : (summaryMode === 'eco' ? 'eco' : 'detailed');
+
+      console.log(`Fetching ${summaryMode} summary from ${messageBackendType} backend: ${SUMMARY_API_URL}`);
 
       const response = await fetch(SUMMARY_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        // Send cache_id and selected mode (eco / detailed) as expected by backend
+        // Send cache_id and selected mode as expected by backend
         body: JSON.stringify({ cache_id: message.cache_id, mode: backendMode })
       });
 

@@ -194,6 +194,7 @@ function App() {
             : (data.response || 'No response received.'),
         sql_query: data.sql_query || data.sql || null,
         cache_id: data.cache_id || null,
+        backendType: backendType, // Store backend type for summary requests
         suggestions: finalDataRows || null,
         dataRows: finalDataRows,
         dataColumns: finalDataColumns,
